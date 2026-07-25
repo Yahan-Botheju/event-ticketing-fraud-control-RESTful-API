@@ -2,8 +2,10 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.e
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.DTOs.ApiResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.DTOs.ErrorDetails;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -25,5 +27,14 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(ApiResponse.error(errorDetails), status);
+    }
+
+    //400 - Bad Request
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiResponse<Void>> handleBadRequestException(
+            BadRequestException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 }
