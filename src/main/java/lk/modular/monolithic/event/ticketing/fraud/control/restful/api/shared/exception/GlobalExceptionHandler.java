@@ -65,4 +65,12 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
+    //403 Forbidden
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiResponse<Void>> handleForbidden(
+            ForbiddenException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request);
+    }
 }
