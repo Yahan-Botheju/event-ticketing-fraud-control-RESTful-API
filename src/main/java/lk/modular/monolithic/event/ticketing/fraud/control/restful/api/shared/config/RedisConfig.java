@@ -29,6 +29,9 @@ public class RedisConfig {
         //initiate redis serializer
         GenericJacksonJsonRedisSerializer jsonSerializer = new GenericJacksonJsonRedisSerializer(redisObjectMapper);
 
+        //serialize values
+        redisTemplate.setValueSerializer(jsonSerializer);
+        redisTemplate.setHashValueSerializer(jsonSerializer);
 
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
