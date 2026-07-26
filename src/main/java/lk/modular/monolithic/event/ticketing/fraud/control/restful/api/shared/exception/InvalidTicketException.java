@@ -1,4 +1,8 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception;
 
-public class InvalidTicketException {
+public class InvalidTicketException extends RuntimeException{
+    public InvalidTicketException(String message)
+    {
+        super(message);
+    }
 }
