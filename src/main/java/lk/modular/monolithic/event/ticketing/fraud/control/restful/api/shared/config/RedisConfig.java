@@ -13,5 +13,8 @@ public class RedisConfig {
     ) {
         //create template object
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+
+        //set redis template to connection factory
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
     }
 }
