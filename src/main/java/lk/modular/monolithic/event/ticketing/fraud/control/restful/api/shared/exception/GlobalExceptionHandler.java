@@ -81,4 +81,13 @@ public class GlobalExceptionHandler {
     ){
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
+
+    //409 conflict
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiResponse<Void>> handleConflict(
+            ConflictException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request);
+    }
 }
