@@ -99,4 +99,13 @@ public class GlobalExceptionHandler {
     ){
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected internal server error", request);
     }
+
+    //Invalid ticket exception (Custom error)
+    @ExceptionHandler(InvalidTicketException.class)
+    public ResponseEntity<ApiResponse<Void>> handleInvalidTicketException(
+            InvalidTicketException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
 }
