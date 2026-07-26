@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
@@ -72,5 +71,14 @@ public class GlobalExceptionHandler {
             WebRequest request
     ){
         return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request);
+    }
+
+    //404 Not Found
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleResourceNotFound(
+            ResourceNotFoundException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
 }
