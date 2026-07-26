@@ -90,4 +90,13 @@ public class GlobalExceptionHandler {
     ){
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request);
     }
+
+    //500 Internal server error
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleException(
+            Exception ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected internal server error", request);
+    }
 }
