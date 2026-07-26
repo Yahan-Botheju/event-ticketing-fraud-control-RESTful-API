@@ -33,6 +33,7 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(redisJsonSerializer);
         redisTemplate.setHashValueSerializer(redisJsonSerializer);
 
-
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
     }
 }
