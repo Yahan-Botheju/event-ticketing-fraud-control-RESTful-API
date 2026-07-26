@@ -1,16 +1,20 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
+import tools.jackson.databind.ObjectMapper;
+
 
 @Configuration
 public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(
-            RedisConnectionFactory redisConnectionFactory
+            RedisConnectionFactory redisConnectionFactory,
+            @Qualifier("redisObjectMapper") ObjectMapper redisObjectMapper
     ) {
         //create template object
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
@@ -21,5 +25,15 @@ public class RedisConfig {
         //serialize key as string
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+
+        //initiate redis serializer
+        GenericJacksonJsonRedisSerializer jsonSerializer = new GenericJacksonJsonRedisSerializer(redisObjectMapper);
+
+        //serialize values
+        redisTemplate.setValueSerializer(jsonSerializer);
+        redisTemplate.setHashValueSerializer(jsonSerializer);
+
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
     }
 }
