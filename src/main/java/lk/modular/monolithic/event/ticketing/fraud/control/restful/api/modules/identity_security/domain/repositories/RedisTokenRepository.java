@@ -9,4 +9,7 @@ public interface RedisTokenRepository {
 
     //get refresh token from redis context related to userId
     Optional<String> getRefreshToken(Long userId);
+
+    //delete refresh token related to user
+    void deleteRefreshToken(Long userId);
 }
