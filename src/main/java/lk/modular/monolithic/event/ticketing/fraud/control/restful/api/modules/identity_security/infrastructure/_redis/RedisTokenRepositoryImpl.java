@@ -50,4 +50,11 @@ public class RedisTokenRepositoryImpl implements RedisTokenRepository {
         return Optional.ofNullable(redisTemplate.opsForValue().get(key))
                 .map(Object::toString);
     }
+
+    //delete refresh token
+    @Override
+    public void deleteRefreshToken(Long userId) {
+        String key = buildKey(userId);
+        redisTemplate.delete(key);
+    }
 }
