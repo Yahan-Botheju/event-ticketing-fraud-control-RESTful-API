@@ -29,4 +29,10 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByEmail(String email){
         return jpaUserRepository.findByEmail(email).map(userPersistenceMapper::toDomainModel);
     }
+
+    //check user email existence
+    @Override
+    public boolean existsByEmail(String email){
+        return jpaUserRepository.existsByEmail(email);
+    }
 }
