@@ -6,5 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public interface UserPersistenceMapper {
+    //domain model to entity
+    UserEntity userEntity(User user);
 
+    //entity to domain model
+    User user(UserEntity userEntity);
 }
