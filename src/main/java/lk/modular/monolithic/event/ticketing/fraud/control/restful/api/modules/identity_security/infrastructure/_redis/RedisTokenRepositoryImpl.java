@@ -4,6 +4,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.Duration;
+import java.util.Optional;
 
 public class RedisTokenRepositoryImpl implements RedisTokenRepository {
 
@@ -39,5 +40,14 @@ public class RedisTokenRepositoryImpl implements RedisTokenRepository {
         String key = buildKey(userId);
 
         redisTemplate.opsForValue().set(key, refreshToken, Duration.ofMillis(durationInMs));
+    }
+
+    //get refresh token redis context related to userId
+    @Override
+    public Optional<String> getRefreshToken(Long userId) {
+        String key = buildKey(userId);
+
+        return Optional.ofNullable(redisTemplate.opsForValue().get(key))
+                .map(Object::toString);
     }
 }
