@@ -24,6 +24,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     /*  __HELPER_METHODS__ */
 
+    //user find by ID
+    @Override
+    public Optional<User> findById(Long userId) {
+        return jpaUserRepository.findById(userId).map(userPersistenceMapper::toDomainModel);
+    }
+
     //find user by email
     @Override
     public Optional<User> findByEmail(String email){
