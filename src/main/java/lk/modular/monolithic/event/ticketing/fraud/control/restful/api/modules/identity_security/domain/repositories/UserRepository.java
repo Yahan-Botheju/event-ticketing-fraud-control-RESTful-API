@@ -14,4 +14,7 @@ public interface UserRepository {
 
     //check user email existence
     boolean existsByEmail(String email);
+
+    //register user
+    User registerUser(User user);
 }
