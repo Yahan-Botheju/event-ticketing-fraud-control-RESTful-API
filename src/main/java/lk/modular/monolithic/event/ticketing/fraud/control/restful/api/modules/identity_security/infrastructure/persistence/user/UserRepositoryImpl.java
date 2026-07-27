@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.entities.UserEntity;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.jpa.JpaUserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.persistenceMapper.UserPersistenceMapper;
 
@@ -22,7 +23,9 @@ public class UserRepositoryImpl implements UserRepository {
         this.userPersistenceMapper = userPersistenceMapper;
     }
 
+
     /*  __HELPER_METHODS__ */
+
 
     //user find by ID
     @Override
@@ -40,5 +43,17 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean existsByEmail(String email){
         return jpaUserRepository.existsByEmail(email);
+    }
+
+
+    /*  __PUBLIC_METHODS__ */
+
+    //register user
+    @Override
+    public User registerUser(User user) {
+        UserEntity toEntity = userPersistenceMapper.toEntity(user);
+        UserEntity registeredUser =  jpaUserRepository.save(toEntity);
+
+        return userPersistenceMapper.toDomainModel(registeredUser);
     }
 }
