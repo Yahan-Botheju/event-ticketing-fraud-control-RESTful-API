@@ -1,6 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -11,6 +12,18 @@ import tools.jackson.databind.ObjectMapper;
 
 @Configuration
 public class RedisConfig {
+
+    //refresh token refix
+    @Value("${application.security.redis.refresh-token-prefix}")
+    private String refreshTokenPrefix;
+
+    @Bean
+    public String refreshTokenPrefix() {
+        return refreshTokenPrefix;
+    }
+
+
+    // custom serialize bean template
     @Bean
     public RedisTemplate<String, Object> redisTemplate(
             RedisConnectionFactory redisConnectionFactory,
