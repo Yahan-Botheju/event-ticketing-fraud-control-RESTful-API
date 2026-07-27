@@ -1,9 +1,12 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user;
 
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.jpa.JpaUserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.persistenceMapper.UserPersistenceMapper;
+
+import java.util.Optional;
 
 public class UserRepositoryImpl implements UserRepository {
 
@@ -17,5 +20,13 @@ public class UserRepositoryImpl implements UserRepository {
     ) {
         this.jpaUserRepository = jpaUserRepository;
         this.userPersistenceMapper = userPersistenceMapper;
+    }
+
+    /*  __HELPER_METHODS__ */
+
+    //find user by email
+    @Override
+    public Optional<User> findByEmail(String email){
+        return jpaUserRepository.findByEmail(email).map(userPersistenceMapper::toDomainModel);
     }
 }
