@@ -8,4 +8,7 @@ public interface UserRepository {
 
     //find user by email
     Optional<User> findByEmail(String email);
+
+    //check user email existence
+    boolean existsByEmail(String email);
 }
