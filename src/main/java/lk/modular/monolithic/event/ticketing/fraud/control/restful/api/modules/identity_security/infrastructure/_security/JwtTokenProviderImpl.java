@@ -84,7 +84,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
             Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         }catch (JwtException | InvalidTicketException e){
             return false;
