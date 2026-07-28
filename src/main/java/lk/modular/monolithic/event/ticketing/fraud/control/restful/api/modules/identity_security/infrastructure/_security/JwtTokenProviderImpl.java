@@ -39,4 +39,15 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
                  .signWith(secretKey)
                  .compact();
     }
+
+    //generate refresh token
+    @Override
+    public String generateRefreshToken(String email) {
+         return Jwts.builder()
+                 .subject(email)
+                 .issuedAt(new Date(System.currentTimeMillis()))
+                 .expiration(new Date((System.currentTimeMillis() + refreshTokenExpirationMs)))
+                 .signWith(secretKey)
+                 .compact();
+    }
 }
