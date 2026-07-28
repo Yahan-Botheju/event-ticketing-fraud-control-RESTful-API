@@ -17,6 +17,11 @@ public class CustomUserDetails implements UserDetails {
         this.user = user;
     }
 
+    //get domain user
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
