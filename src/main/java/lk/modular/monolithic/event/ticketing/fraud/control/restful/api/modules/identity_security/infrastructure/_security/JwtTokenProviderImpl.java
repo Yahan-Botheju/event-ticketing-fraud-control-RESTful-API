@@ -1,8 +1,10 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.InvalidTicketException;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -71,4 +73,24 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     public String getEmailFromToken(String token) {
         return getClaimsFromToken(token).getSubject();
     }
+
+
+    /* __VALIDATION_METHODS__ */
+
+    //validate token
+    @Override
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        }catch (JwtException | InvalidTicketException e){
+            return false;
+        }
+    }
+
+
+
 }
