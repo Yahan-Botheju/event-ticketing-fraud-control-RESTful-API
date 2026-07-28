@@ -1,5 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 
@@ -49,5 +50,19 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
                  .expiration(new Date((System.currentTimeMillis() + refreshTokenExpirationMs)))
                  .signWith(secretKey)
                  .compact();
+    }
+
+
+    /* __TOKEN_EXTRACTION_METHOD__ */
+
+
+    //get claims from token
+    @Override
+    public Claims getClaimsFromToken(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }
