@@ -1,8 +1,10 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security;
 
+import io.jsonwebtoken.Jwts;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 public class JwtTokenProviderImpl implements JwtTokenProvider {
 
@@ -19,5 +21,22 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
         this.secretKey = secretKey;
         this.accessTokenExpirationMs = accessTokenExpirationMs;
         this.refreshTokenExpirationMs = refreshTokenExpirationMs;
+    }
+
+
+    /* __TOKEN_GENERATION__ */
+
+
+    //generate access token
+    @Override
+    public String generateAccessToken(Long userId, String email, String role) {
+         return Jwts.builder()
+                 .subject(email)
+                 .claim("userId", userId)
+                 .claim("role", role)
+                 .issuedAt(new Date(System.currentTimeMillis()))
+                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
+                 .signWith(secretKey)
+                 .compact();
     }
 }
