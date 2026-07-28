@@ -14,4 +14,10 @@ public interface JwtTokenProvider {
 
     //get email from token
     String getEmailFromToken(String token);
+
+    //validate token
+    boolean validateToken(String token);
+
+    //get refresh token expiration
+    long getRefreshTokenExpiry();
 }
