@@ -11,4 +11,7 @@ public interface JwtTokenProvider {
 
     //get claim from token
     Claims getClaimsFromToken(String token);
+
+    //get email from token
+    String getEmailFromToken(String token);
 }
