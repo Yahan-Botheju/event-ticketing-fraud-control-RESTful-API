@@ -91,6 +91,11 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
         }
     }
 
+    //refresh token expiration
+    @Override
+    public long getRefreshTokenExpiry() {
+        return refreshTokenExpirationMs;
+    }
 
 
 }
