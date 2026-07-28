@@ -17,4 +17,7 @@ public interface JwtTokenProvider {
 
     //validate token
     boolean validateToken(String token);
+
+    //get refresh token expiration
+    long getRefreshTokenExpiry();
 }
