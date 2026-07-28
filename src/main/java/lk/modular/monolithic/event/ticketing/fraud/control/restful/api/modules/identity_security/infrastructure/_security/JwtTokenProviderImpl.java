@@ -65,4 +65,10 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
+    //get email from token
+    @Override
+    public String getEmailFromToken(String token) {
+        return getClaimsFromToken(token).getSubject();
+    }
 }
