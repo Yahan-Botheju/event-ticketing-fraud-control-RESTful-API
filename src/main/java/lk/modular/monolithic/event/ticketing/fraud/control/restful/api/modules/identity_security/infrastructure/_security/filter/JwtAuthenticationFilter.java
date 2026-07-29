@@ -43,6 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
 
+    /* __FILTER__ */
 
     @Override
     protected void doFilterInternal(
@@ -51,6 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-
+        //get token from header using method
+        String jwtToken = getJwtFromRequest(request);
     }
 }
