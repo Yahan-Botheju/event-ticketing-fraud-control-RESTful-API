@@ -61,5 +61,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
+        if(jwtTokenProvider.validateToken(jwtToken)) {
+
+        }
     }
 }
