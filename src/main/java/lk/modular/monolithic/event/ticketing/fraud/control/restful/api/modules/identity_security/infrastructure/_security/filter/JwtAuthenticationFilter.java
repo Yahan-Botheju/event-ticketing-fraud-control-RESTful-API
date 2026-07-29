@@ -71,6 +71,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //check user email and wrap
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
+            //create auth object
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities()
+            );
         }
     }
 }
