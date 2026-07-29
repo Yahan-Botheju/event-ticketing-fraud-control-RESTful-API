@@ -1,5 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.config;
 
+import tools.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
-import tools.jackson.databind.ObjectMapper;
+
 
 
 @Configuration
