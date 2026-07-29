@@ -63,7 +63,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if(jwtTokenProvider.validateToken(jwtToken)) {
-
+            //get email from token
+            String email = jwtTokenProvider.getEmailFromToken(jwtToken);
         }
     }
 }
