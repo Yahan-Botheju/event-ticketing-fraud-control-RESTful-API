@@ -5,6 +5,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public class CustomUserDetailsService implements UserDetailsService {
 
+    //inject required dependencies
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(
+            UserRepository userRepository
+    ) {
+        this.userRepository = userRepository;
+    }
 
 
 }
