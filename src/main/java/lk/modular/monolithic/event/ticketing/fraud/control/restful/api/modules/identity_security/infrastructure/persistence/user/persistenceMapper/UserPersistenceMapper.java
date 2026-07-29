@@ -2,9 +2,10 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.entities.UserEntity;
-import org.springframework.context.annotation.Configuration;
+import org.mapstruct.Mapper;
 
-@Configuration
+
+@Mapper(componentModel = "spring")
 public interface UserPersistenceMapper {
     //domain model to entity
     UserEntity toEntity(User user);
