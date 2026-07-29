@@ -9,6 +9,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetailsService;
 import org.jspecify.annotations.NonNull;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -54,5 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         //get token from header using method
         String jwtToken = getJwtFromRequest(request);
+
+        //check token is available or spring security context is not empty
+        if(!StringUtils.hasText(jwtToken) || SecurityContextHolder.getContext().getAuthentication() != null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
     }
 }
