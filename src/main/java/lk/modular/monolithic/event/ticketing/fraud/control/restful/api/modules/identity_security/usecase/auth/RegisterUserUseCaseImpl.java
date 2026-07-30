@@ -1,20 +1,19 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.auth;
 
-import jakarta.transaction.Transactional;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.Role;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.IdentityProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
 
-public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
+public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     //inject required dependencies
     private final IdentityProvider identityProvider;
     private final UserRepository userRepository;
 
 
-    public AuthenticateUserUseCaseImpl(
+    public RegisterUserUseCaseImpl(
             IdentityProvider identityProvider,
             UserRepository userRepository
     ) {
