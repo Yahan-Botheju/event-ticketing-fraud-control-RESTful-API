@@ -24,7 +24,6 @@ public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
 
     //register user
     @Override
-    @Transactional
     public void registerUser(User user) {
         if(userRepository.existsByEmail(user.getEmail())) {
             throw new ConflictException("Email already registered..!!");
@@ -35,6 +34,15 @@ public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
 
         //if role is empty set as default role
         Role userRole = user.getRole() != null ? user.getRole() : Role.ATTENDEE;
+
+        //create user object with required details
+        User newUser = User.builder()
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .password(encodedPassword)
+                .role(userRole)
+                .build();
+
 
 
     }
