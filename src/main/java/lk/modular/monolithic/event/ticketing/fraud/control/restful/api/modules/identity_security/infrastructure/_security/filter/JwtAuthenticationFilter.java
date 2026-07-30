@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetails;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetailsService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -69,20 +70,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //get email from token
             String email = jwtTokenProvider.getEmailFromToken(jwtToken);
 
-            //check user email and wrap
+            //STATEFUL WHITELIST CHECK
+            // user email and wrap
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+            CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
 
-            //create auth object
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
+            //get user id to check user token in redis
+            Long userId = customUserDetails.getUser().getUserId();
 
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            //check token is available in redis (logout or session expired)
+            boolean isWhiteListed = redisTokenRepository.getRefreshToken(userId).isPresent();
 
-            //object set to spring security context
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if(isWhiteListed) {
+                //create auth object
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                //object set to spring security context
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
         filterChain.doFilter(request, response);
     }
