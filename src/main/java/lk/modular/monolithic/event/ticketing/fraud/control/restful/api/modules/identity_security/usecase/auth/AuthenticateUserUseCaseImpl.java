@@ -43,7 +43,7 @@ public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
                 .role(userRole)
                 .build();
 
-
-
+        //save user
+        userRepository.registerUser(newUser);
     }
 }
