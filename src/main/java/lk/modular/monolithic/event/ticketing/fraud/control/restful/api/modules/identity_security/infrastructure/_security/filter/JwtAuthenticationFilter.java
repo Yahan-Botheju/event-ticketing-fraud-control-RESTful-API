@@ -75,6 +75,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
             CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
 
+            //get user id to check user token in redis
+            Long userId = customUserDetails.getUser().getUserId();
+
+            //check token is available in redis (logout or session expired)
+            boolean isWhiteListed = redisTokenRepository.getRefreshToken(userId).isPresent();
 
             //create auth object
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
