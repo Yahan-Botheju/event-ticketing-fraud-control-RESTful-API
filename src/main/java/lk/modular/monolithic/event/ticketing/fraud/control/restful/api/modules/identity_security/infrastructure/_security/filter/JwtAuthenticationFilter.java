@@ -81,17 +81,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //check token is available in redis (logout or session expired)
             boolean isWhiteListed = redisTokenRepository.getRefreshToken(userId).isPresent();
 
-            //create auth object
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
-
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            //object set to spring security context
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            if(isWhiteListed) {
+                //create auth object
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                //object set to spring security context
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
         filterChain.doFilter(request, response);
     }
