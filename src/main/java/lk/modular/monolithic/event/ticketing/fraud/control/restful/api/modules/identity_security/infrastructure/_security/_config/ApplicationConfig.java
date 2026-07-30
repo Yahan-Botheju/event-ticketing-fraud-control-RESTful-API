@@ -36,9 +36,7 @@ public class ApplicationConfig {
 
     //initiate dao auth provider
     @Bean
-    public AuthenticationProvider authenticationProvider(
-            UserDetailsService userDetailsService
-    ) {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 
