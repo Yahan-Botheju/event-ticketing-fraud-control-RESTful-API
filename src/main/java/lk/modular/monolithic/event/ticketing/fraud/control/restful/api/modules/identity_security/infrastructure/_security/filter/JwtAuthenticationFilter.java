@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetails;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetailsService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -69,8 +70,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             //get email from token
             String email = jwtTokenProvider.getEmailFromToken(jwtToken);
 
-            //check user email and wrap
+            //STATEFUL WHITELIST CHECK
+            // user email and wrap
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
+            CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+
 
             //create auth object
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
