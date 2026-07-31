@@ -1,7 +1,8 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login;
 
 import jakarta.servlet.http.HttpServletResponse;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.AuthenticatedUser;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.IdentityProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
@@ -25,11 +26,15 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
     //login user
     @Override
-    public User login(
+    public AuthenticatedUserResult login(
             String username,
             String password,
             HttpServletResponse httpServletResponse
     ) {
-        return null;
+        //authenticate user
+        AuthenticatedUser authenticatedUser  = identityProvider.authenticateUser(username, password);
+
+
+
     }
 }
