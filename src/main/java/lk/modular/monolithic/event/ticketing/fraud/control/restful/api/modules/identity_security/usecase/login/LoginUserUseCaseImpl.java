@@ -42,9 +42,9 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
                 authenticatedUser.email(),
                 authenticatedUser.role()
         );
-
         //refresh token
         String refreshToken = jwtTokenProvider.generateRefreshToken(authenticatedUser.email());
+
 
         /* __STATEFUL_WHITELISTING__ */
         //save refresh token redis context
@@ -55,7 +55,12 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
         );
 
-
-
+        return new AuthenticatedUserResult(
+                accessToken,
+                refreshToken,
+                authenticatedUser.userId(),
+                authenticatedUser.email(),
+                authenticatedUser.role()
+        );
     }
 }
