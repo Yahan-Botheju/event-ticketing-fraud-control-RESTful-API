@@ -1,6 +1,5 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._config;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.PasswordHasher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,11 +26,6 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public PasswordHasher passwordHasher(PasswordEncoder passwordEncoder) {
-        return passwordEncoder::encode;
-    }
-
     //initiate auth manager
     @Bean
     public AuthenticationManager authenticationManager(
@@ -48,4 +42,6 @@ public class ApplicationConfig {
 
         return daoAuthenticationProvider;
     }
+
+
 }

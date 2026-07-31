@@ -5,5 +5,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 public interface RegisterUserUseCase {
 
     //register user
-    void registerUser(User user);
+    void register(User user);
+
+
 }

@@ -23,13 +23,13 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     //register user
     @Override
-    public void registerUser(User user) {
+    public void register(User user) {
         if(userRepository.existsByEmail(user.getEmail())) {
             throw new ConflictException("Email already registered..!!");
         }
 
         //encode password using  identity domain repo
-        String encodedPassword = identityProvider.encode(user.getPassword());
+        String encodedPassword = identityProvider.encodePassword(user.getPassword());
 
         //if role is empty set as default role
         Role userRole = user.getRole() != null ? user.getRole() : Role.ATTENDEE;
