@@ -46,6 +46,16 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
         //refresh token
         String refreshToken = jwtTokenProvider.generateRefreshToken(authenticatedUser.email());
 
+        /* __STATEFUL_WHITELISTING__ */
+        //save refresh token redis context
+        redisTokenRepository.saveRefreshToken(
+                authenticatedUser.userId(),
+                refreshToken,
+                jwtTokenProvider.getRefreshTokenExpiry()
+
+        );
+
+
 
     }
 }
