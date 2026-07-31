@@ -23,7 +23,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     //register user
     @Override
-    public void registerUser(User user) {
+    public void register(User user) {
         if(userRepository.existsByEmail(user.getEmail())) {
             throw new ConflictException("Email already registered..!!");
         }
