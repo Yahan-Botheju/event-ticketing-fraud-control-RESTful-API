@@ -29,7 +29,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         }
 
         //encode password using  identity domain repo
-        String encodedPassword = identityProvider.encode(user.getPassword());
+        String encodedPassword = identityProvider.encodePassword(user.getPassword());
 
         //if role is empty set as default role
         Role userRole = user.getRole() != null ? user.getRole() : Role.ATTENDEE;
