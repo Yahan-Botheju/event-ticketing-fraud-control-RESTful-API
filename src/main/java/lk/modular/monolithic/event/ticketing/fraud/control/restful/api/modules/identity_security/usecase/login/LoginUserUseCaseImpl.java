@@ -34,6 +34,17 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
         //authenticate user
         AuthenticatedUser authenticatedUser  = identityProvider.authenticateUser(username, password);
 
+        /* __GENERATE_TOKENS__ */
+
+        //access token
+        String accessToken = jwtTokenProvider.generateAccessToken(
+                authenticatedUser.userId(),
+                authenticatedUser.email(),
+                authenticatedUser.role()
+        );
+
+        //refresh token
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authenticatedUser.email());
 
 
     }
