@@ -1,6 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.AuthenticatedUser;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUser;
 
 public interface IdentityProvider {
     //shared password encoder
