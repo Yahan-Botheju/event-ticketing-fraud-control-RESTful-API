@@ -7,7 +7,6 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -15,7 +14,7 @@ public class SpringSecurityBeanConfigs {
 
     //spring security custom use details service bean config
     @Bean
-    public UserDetailsService userDetailsService(
+    public CustomUserDetailsService customUserDetailsService(
             UserRepository userRepository
     ) {
         return new CustomUserDetailsService(userRepository);
