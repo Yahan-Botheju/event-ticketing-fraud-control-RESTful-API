@@ -31,13 +31,17 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
     public AuthenticatedUserResult execute(String refreshToken) {
         //check token valid or not
         if(!jwtTokenProvider.validateToken(refreshToken)) {
-            throw new UnauthorizedException("Invalid or expired refresh token");
+            throw new UnauthorizedException("Invalid or expired refresh token..!!");
         }
         //get email from token
         String email = jwtTokenProvider.getEmailFromToken(refreshToken);
 
         //check user existence
         User existingUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found..!!"));
+
+        //WHITELIST_CHECK check token is available as active session in redis context
+        String activateToken = redisTokenRepository.getRefreshToken(existingUser.getUserId())
+                .orElseThrow(() -> new UnauthorizedException("Session expired..!!"));
     }
 }
