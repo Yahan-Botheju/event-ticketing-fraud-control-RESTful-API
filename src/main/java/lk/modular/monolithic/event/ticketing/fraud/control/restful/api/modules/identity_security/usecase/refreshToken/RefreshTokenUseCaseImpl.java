@@ -49,5 +49,19 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
         if(!activateToken.equals(refreshToken)) {
             throw new InvalidTicketException("Token mismatch or revoked..!!");
         }
+
+        /* __GENERATE_NEW_TOKENS__ */
+
+        //access_token
+        String newAccessToken = jwtTokenProvider.generateAccessToken(
+                existingUser.getUserId(),
+                existingUser.getEmail(),
+                existingUser.getRole().toString()
+                );
+
+        //refresh_token
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(newAccessToken);
+
+
     }
 }
