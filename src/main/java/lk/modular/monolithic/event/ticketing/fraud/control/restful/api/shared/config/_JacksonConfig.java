@@ -11,10 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class _JacksonConfig {
 
     @Bean(name = "redisObjectMapper")
-    public ObjectMapper redisObjectMapper(
-            ObjectMapper objectMapper
-    ) {
-        ObjectMapper mapper = objectMapper.copy();
+    public ObjectMapper redisObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
 
         mapper.registerModule(new JavaTimeModule());
         mapper.activateDefaultTyping(
