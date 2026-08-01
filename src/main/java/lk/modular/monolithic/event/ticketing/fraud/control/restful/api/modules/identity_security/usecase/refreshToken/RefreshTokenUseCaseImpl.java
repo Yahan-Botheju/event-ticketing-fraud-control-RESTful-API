@@ -4,6 +4,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.UnauthorizedException;
 
 public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
 
@@ -26,6 +27,9 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
     //active new access token when its expired
     @Override
     public AuthenticatedUserResult execute(String refreshToken) {
-        return null;
+        //check token valid or not
+        if(!jwtTokenProvider.validateToken(refreshToken)) {
+            throw new UnauthorizedException("Invalid or expired refresh token");
+        }
     }
 }
