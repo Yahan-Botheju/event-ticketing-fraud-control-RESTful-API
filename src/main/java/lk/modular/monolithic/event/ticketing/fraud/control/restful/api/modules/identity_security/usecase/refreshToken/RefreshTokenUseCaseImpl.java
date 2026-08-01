@@ -1,4 +1,24 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken;
 
-public class RefreshTokenUseCaseImpl {
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
+
+public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
+
+    //inject required dependencies
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTokenRepository redisTokenRepository;
+
+
+    public RefreshTokenUseCaseImpl(
+            UserRepository userRepository,
+            JwtTokenProvider jwtTokenProvider,
+            RedisTokenRepository redisTokenRepository
+    ) {
+        this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.redisTokenRepository = redisTokenRepository;
+    }
 }
