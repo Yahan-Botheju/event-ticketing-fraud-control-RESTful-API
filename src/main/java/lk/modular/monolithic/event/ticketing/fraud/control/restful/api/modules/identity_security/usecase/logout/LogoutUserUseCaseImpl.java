@@ -10,4 +10,11 @@ public class LogoutUserUseCaseImpl implements  LogoutUserUseCase {
     public LogoutUserUseCaseImpl(RedisTokenRepository redisTokenRepository) {
         this.redisTokenRepository = redisTokenRepository;
     }
+
+    //logout user
+    @Override
+    public void execute(Long userId) {
+        //delete refresh token from redis whitelisting
+        redisTokenRepository.deleteRefreshToken(userId);
+    }
 }
