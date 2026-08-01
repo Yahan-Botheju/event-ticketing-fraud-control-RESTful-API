@@ -31,5 +31,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
         if(!jwtTokenProvider.validateToken(refreshToken)) {
             throw new UnauthorizedException("Invalid or expired refresh token");
         }
+        //get email from token
+        String email = jwtTokenProvider.getEmailFromToken(refreshToken);
     }
 }
