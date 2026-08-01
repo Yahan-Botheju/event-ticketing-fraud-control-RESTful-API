@@ -50,7 +50,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
             throw new InvalidTicketException("Token mismatch or revoked..!!");
         }
 
-        /* __GENERATE_NEW_TOKENS__ */
+        /* __GENERATE_NEW_TOKEN__ */
 
         //access_token
         String newAccessToken = jwtTokenProvider.generateAccessToken(
@@ -59,8 +59,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
                 existingUser.getRole().toString()
                 );
 
-        //refresh_token
-        String newRefreshToken = jwtTokenProvider.generateRefreshToken(newAccessToken);
+
 
 
     }
