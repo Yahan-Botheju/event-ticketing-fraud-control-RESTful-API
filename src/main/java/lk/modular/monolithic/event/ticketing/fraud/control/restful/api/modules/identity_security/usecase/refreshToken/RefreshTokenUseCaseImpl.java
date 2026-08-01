@@ -5,6 +5,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.InvalidTicketException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ResourceNotFoundException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.UnauthorizedException;
 
@@ -31,7 +32,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
     public AuthenticatedUserResult execute(String refreshToken) {
         //check token valid or not
         if(!jwtTokenProvider.validateToken(refreshToken)) {
-            throw new UnauthorizedException("Invalid or expired refresh token..!!");
+            throw new InvalidTicketException("Invalid or expired refresh token..!!");
         }
         //get email from token
         String email = jwtTokenProvider.getEmailFromToken(refreshToken);
@@ -43,5 +44,10 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
         //WHITELIST_CHECK check token is available as active session in redis context
         String activateToken = redisTokenRepository.getRefreshToken(existingUser.getUserId())
                 .orElseThrow(() -> new UnauthorizedException("Session expired..!!"));
+
+        //check tokens are same
+        if(!activateToken.equals(refreshToken)) {
+            throw new InvalidTicketException("Token mismatch or revoked..!!");
+        }
     }
 }
