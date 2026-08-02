@@ -28,8 +28,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
     @Override
     public AuthenticatedUserResult login(
             String username,
-            String password,
-            HttpServletResponse httpServletResponse
+            String password
     ) {
         //authenticate user
         AuthenticatedUser authenticatedUser  = identityProvider.authenticateUser(username, password);
