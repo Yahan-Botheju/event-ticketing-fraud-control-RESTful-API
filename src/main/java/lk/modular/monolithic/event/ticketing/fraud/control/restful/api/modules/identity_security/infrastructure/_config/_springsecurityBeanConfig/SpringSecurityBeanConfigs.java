@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.IdentityProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security.IdentityProvider.IdentityProviderImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._resolver.CurrentUserIdArgumentResolver;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,5 +28,11 @@ public class SpringSecurityBeanConfigs {
             AuthenticationManager authenticationManager
     ){
         return new IdentityProviderImpl(passwordEncoder, authenticationManager);
+    }
+
+    //resolver
+    @Bean
+    public CurrentUserIdArgumentResolver currentUserIdArgumentResolver(){
+        return new CurrentUserIdArgumentResolver();
     }
 }
