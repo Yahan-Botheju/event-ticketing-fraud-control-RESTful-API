@@ -17,5 +17,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         this.currentUserIdArgumentResolver = currentUserIdArgumentResolver;
     }
 
-
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(currentUserIdArgumentResolver);
+    }
 }
