@@ -90,6 +90,8 @@ public class AuthController {
     public ResponseEntity<String> logout(
             @CurrentUserId Long userId
     ){
+        logoutUserUseCase.execute(userId);
 
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
