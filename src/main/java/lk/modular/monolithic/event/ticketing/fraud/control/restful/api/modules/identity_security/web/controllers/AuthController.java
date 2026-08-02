@@ -11,8 +11,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.LoginRequestDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.RefreshTokenRequestDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.RegisterRequestDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.webMappers.AuthWebMapper;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.DTOs.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -81,5 +81,15 @@ public class AuthController {
         AuthResponseDTO toResponseDTO = authWebMapper.toAuthResponseDTO(authenticatedUserResult);
 
         return ResponseEntity.ok(toResponseDTO);
+    }
+
+    //logout endpoint
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(
+            @CurrentUserId Long userId
+    ){
+        logoutUserUseCase.execute(userId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
