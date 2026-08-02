@@ -9,6 +9,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.RegisterUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.AuthResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.LoginRequestDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.RefreshTokenRequestDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.RegisterRequestDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.webMappers.AuthWebMapper;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.DTOs.ApiResponse;
@@ -64,6 +65,19 @@ public class AuthController {
         String password = loginRequestDTO.getPassword();
 
         AuthenticatedUserResult authenticatedUserResult = loginUserUseCase.login(username, password);
+        AuthResponseDTO toResponseDTO = authWebMapper.toAuthResponseDTO(authenticatedUserResult);
+
+        return ResponseEntity.ok(toResponseDTO);
+    }
+
+    //refresh-token endpoint
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthResponseDTO> refreshToken(
+            @Valid @RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO
+    ){
+        String refreshToken = refreshTokenRequestDTO.getRefreshToken();
+
+        AuthenticatedUserResult authenticatedUserResult = refreshTokenUseCase.execute(refreshToken);
         AuthResponseDTO toResponseDTO = authWebMapper.toAuthResponseDTO(authenticatedUserResult);
 
         return ResponseEntity.ok(toResponseDTO);
