@@ -66,9 +66,16 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
                 existingUser.getRole().toString()
         );
 
+        //override from new refresh_token
+        redisTokenRepository.saveRefreshToken(
+                existingUser.getUserId(),
+                newRefreshToken,
+                jwtTokenProvider.getRefreshTokenExpiry()
+        );
+
         return new  AuthenticatedUserResult(
                 newAccessToken,
-                refreshToken,
+                newRefreshToken,
                 existingUser.getUserId(),
                 existingUser.getEmail(),
                 existingUser.getRole().toString()
