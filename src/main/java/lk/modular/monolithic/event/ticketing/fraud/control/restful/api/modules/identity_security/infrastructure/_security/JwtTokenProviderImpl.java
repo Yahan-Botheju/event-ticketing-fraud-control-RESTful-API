@@ -37,6 +37,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
                  .subject(email)
                  .claim("userId", userId)
                  .claim("role", role)
+                 .claim("tokenType", "ACCESS_TOKEN")
                  .issuedAt(new Date(System.currentTimeMillis()))
                  .expiration(new Date(System.currentTimeMillis() + accessTokenExpirationMs))
                  .signWith(secretKey)
@@ -45,9 +46,12 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
     //generate refresh token
     @Override
-    public String generateRefreshToken(String email) {
+    public String generateRefreshToken(Long userId, String email, String role) {
          return Jwts.builder()
                  .subject(email)
+                 .claim("userId", userId)
+                 .claim("role", role)
+                 .claim("tokenType", "REFRESH_TOKEN")
                  .issuedAt(new Date(System.currentTimeMillis()))
                  .expiration(new Date((System.currentTimeMillis() + refreshTokenExpirationMs)))
                  .signWith(secretKey)
