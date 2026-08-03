@@ -7,7 +7,7 @@ public interface JwtTokenProvider {
     String generateAccessToken(Long userId, String email, String role);
 
     //generate refresh token
-    String generateRefreshToken(Long userId, String email);
+    String generateRefreshToken(Long userId, String email, String role);
 
     //get claim from token
     Claims getClaimsFromToken(String token);

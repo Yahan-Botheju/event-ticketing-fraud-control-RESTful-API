@@ -41,7 +41,11 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
                 authenticatedUser.role()
         );
         //refresh token
-        String refreshToken = jwtTokenProvider.generateRefreshToken(authenticatedUser.userId(), authenticatedUser.email());
+        String refreshToken = jwtTokenProvider.generateRefreshToken(
+                authenticatedUser.userId(),
+                authenticatedUser.email(),
+                authenticatedUser.role()
+        );
 
 
         /* __STATEFUL_WHITELISTING__ */
