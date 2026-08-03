@@ -52,11 +52,19 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
 
         /* __GENERATE_NEW_ACCESS_TOKEN__ */
 
+        //new access_token
         String newAccessToken = jwtTokenProvider.generateAccessToken(
                 existingUser.getUserId(),
                 existingUser.getEmail(),
                 existingUser.getRole().toString()
                 );
+
+        //new refresh_token
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(
+                existingUser.getUserId(),
+                existingUser.getEmail(),
+                existingUser.getRole().toString()
+        );
 
         return new  AuthenticatedUserResult(
                 newAccessToken,
