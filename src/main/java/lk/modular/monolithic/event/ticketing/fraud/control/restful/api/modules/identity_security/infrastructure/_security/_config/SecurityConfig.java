@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +35,8 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authRequest -> authRequest
                         .requestMatchers("/api/v1/auth/**").permitAll() //enable for all public endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/v1/events/**").hasRole("ORGANIZER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/ticket/scane/**").hasRole("ORGANIZER")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**","/swagger-ui.html").permitAll() //enable for doc
                         .anyRequest().authenticated()
                 )
