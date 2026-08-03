@@ -49,7 +49,7 @@ public class EventEntity {
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void prePersist() {
+    protected void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
 }
