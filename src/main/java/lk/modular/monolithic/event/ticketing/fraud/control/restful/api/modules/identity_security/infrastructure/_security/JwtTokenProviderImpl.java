@@ -45,7 +45,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
     //generate refresh token
     @Override
-    public String generateRefreshToken(String email) {
+    public String generateRefreshToken(Long userId, String email) {
          return Jwts.builder()
                  .subject(email)
                  .issuedAt(new Date(System.currentTimeMillis()))
