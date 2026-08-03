@@ -48,6 +48,8 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     public String generateRefreshToken(Long userId, String email, String role) {
          return Jwts.builder()
                  .subject(email)
+                 .claim("userId", userId)
+                 .claim("role", role)
                  .issuedAt(new Date(System.currentTimeMillis()))
                  .expiration(new Date((System.currentTimeMillis() + refreshTokenExpirationMs)))
                  .signWith(secretKey)
