@@ -4,6 +4,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 
+import java.time.Duration;
+
 public class RedisLockServiceImpl implements RedisLockService {
 
     //inject required dependencies
@@ -16,5 +18,18 @@ public class RedisLockServiceImpl implements RedisLockService {
     ) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.releaseRedisScript = releaseRedisScript;
+    }
+
+    //distribute lock
+    @Override
+    public boolean acquireLock(
+            String lockKey,
+            String lockValue,
+            long expireTimeInSeconds
+    ) {
+        Boolean success = stringRedisTemplate.opsForValue()
+                .setIfAbsent(lockKey, lockValue, Duration.ofSeconds(expireTimeInSeconds));
+
+        return Boolean.TRUE.equals(success);
     }
 }
