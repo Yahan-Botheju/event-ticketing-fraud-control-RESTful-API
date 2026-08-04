@@ -1,8 +1,11 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.entities.EventEntity;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.jpa.JpaEventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.persistenceMapper.EventPersistenceMapper;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
 
 public class EventRepositoryImpl implements EventRepository {
 
@@ -16,5 +19,24 @@ public class EventRepositoryImpl implements EventRepository {
     ) {
         this.jpaEventRepository = jpaEventRepository;
         this.eventPersistenceMapper = eventPersistenceMapper;
+    }
+
+    /* __HELPER_METHODS__ */
+
+
+
+    /* __PUBLIC_METHODS__ */
+
+    //save event
+    @Override
+    public Event save(Event event){
+        if(jpaEventRepository.existsById(event.getEventId())) {
+            throw new ConflictException("Event with id " + event.getEventId() + " already exists");
+        }
+
+        EventEntity eventEntity = eventPersistenceMapper.toEntity(event);
+        EventEntity savedEntity = jpaEventRepository.save(eventEntity);
+
+        return eventPersistenceMapper.toEvent(savedEntity);
     }
 }
