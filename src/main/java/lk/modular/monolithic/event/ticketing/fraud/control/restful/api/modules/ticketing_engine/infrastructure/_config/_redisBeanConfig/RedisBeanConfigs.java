@@ -5,6 +5,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 @Configuration
 public class RedisBeanConfigs {
@@ -12,8 +13,8 @@ public class RedisBeanConfigs {
     //redis bean config
     @Bean
     public RedisLockService redisLockService(
-            RedisTemplate<String, Object> redisTemplate
+            StringRedisTemplate stringRedisTemplate
     ) {
-        return new RedisLockServiceImpl(redisTemplate);
+        return new RedisLockServiceImpl(stringRedisTemplate);
     }
 }
