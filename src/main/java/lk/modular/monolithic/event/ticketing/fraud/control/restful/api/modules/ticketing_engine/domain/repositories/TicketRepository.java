@@ -8,4 +8,7 @@ public interface TicketRepository {
 
     //find ticket by id
     Optional<Ticket> findById(Long ticketId);
+
+    //save ticket
+    Ticket save(Ticket ticket);
 }
