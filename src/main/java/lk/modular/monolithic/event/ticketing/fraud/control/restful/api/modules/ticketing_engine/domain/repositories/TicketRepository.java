@@ -9,6 +9,11 @@ public interface TicketRepository {
     //find ticket by id
     Optional<Ticket> findById(Long ticketId);
 
+    //find ticket by code
+    Optional<Ticket> findByTicketCode(String ticketCode);
+
     //save ticket
     Ticket save(Ticket ticket);
+
+
 }
