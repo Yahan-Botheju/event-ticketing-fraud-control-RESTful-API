@@ -31,6 +31,12 @@ public class TicketRepositoryImpl implements TicketRepository {
         return jpaTicketRepository.findById(ticketId).map(ticketPersistenceMapper::toDomainModel);
     }
 
+    //find ticket by code
+    @Override
+    public Optional<Ticket> findByTicketCode(String ticketCode){
+        return jpaTicketRepository.findByTicketCode(ticketCode).map(ticketPersistenceMapper::toDomainModel);
+    }
+
     /* __PUBLIC_METHOD__ */
 
     //save ticket
