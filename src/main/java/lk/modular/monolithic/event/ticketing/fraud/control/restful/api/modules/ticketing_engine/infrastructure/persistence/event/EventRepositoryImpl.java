@@ -7,6 +7,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.persistenceMapper.EventPersistenceMapper;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
 
+import java.util.Optional;
+
 public class EventRepositoryImpl implements EventRepository {
 
     //inject required dependencies
@@ -22,6 +24,11 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     /* __HELPER_METHODS__ */
+
+    //event find by id
+    public Optional<Event> findById(Long eventId){
+        return jpaEventRepository.findById(eventId).map(eventPersistenceMapper::toDomainModel);
+    }
 
 
 
