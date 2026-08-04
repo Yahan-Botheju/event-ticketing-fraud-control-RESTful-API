@@ -4,4 +4,7 @@ public interface RedisLockService {
 
     //get distributed lock
     boolean acquireLock(String lockKey, String lockValue, long expireTimeInSeconds);
+
+    //release lock
+    boolean releaseLock(String lockKey, String lockValue);
 }
