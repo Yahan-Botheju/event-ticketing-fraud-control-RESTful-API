@@ -11,5 +11,5 @@ public interface TicketPersistenceMapper {
     TicketEntity toEntity(Ticket ticket);
 
     //entity to domain model
-    Ticket toTicket(TicketEntity ticketEntity);
+    Ticket toDomainModel(TicketEntity ticketEntity);
 }
