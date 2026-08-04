@@ -11,5 +11,5 @@ public interface EventPersistenceMapper {
     EventEntity toEntity(Event event);
 
     //entity to domain model
-    Event toEvent(EventEntity eventEntity);
+    Event toDomainModel(EventEntity eventEntity);
 }
