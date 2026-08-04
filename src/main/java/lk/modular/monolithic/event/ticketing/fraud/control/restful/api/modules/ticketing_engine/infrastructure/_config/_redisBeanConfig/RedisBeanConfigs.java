@@ -4,16 +4,27 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.lock.RedisLockServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 @Configuration
 public class RedisBeanConfigs {
 
-    //redis bean config
+    //redis lock bean config
     @Bean
     public RedisLockService redisLockService(
-            RedisTemplate<String, Object> redisTemplate
+            StringRedisTemplate stringRedisTemplate
+
     ) {
-        return new RedisLockServiceImpl(redisTemplate);
+        DefaultRedisScript<Long> releaseRedisScript = new DefaultRedisScript<>();
+        releaseRedisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("scripts/redis_lock.lua")));
+        releaseRedisScript.setResultType(Long.class);
+
+        return new RedisLockServiceImpl(stringRedisTemplate, releaseRedisScript);
     }
+
+    //
 }
