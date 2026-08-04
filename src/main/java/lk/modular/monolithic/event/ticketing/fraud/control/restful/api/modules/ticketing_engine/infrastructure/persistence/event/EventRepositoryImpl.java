@@ -44,6 +44,6 @@ public class EventRepositoryImpl implements EventRepository {
         EventEntity eventEntity = eventPersistenceMapper.toEntity(event);
         EventEntity savedEntity = jpaEventRepository.save(eventEntity);
 
-        return eventPersistenceMapper.toEvent(savedEntity);
+        return eventPersistenceMapper.toDomainModel(savedEntity);
     }
 }
