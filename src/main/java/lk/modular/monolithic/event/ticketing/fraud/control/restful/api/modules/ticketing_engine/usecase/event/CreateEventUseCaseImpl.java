@@ -28,5 +28,7 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
         if(event.getEventTotalTickets() == null || event.getEventTicketPrice().compareTo(BigDecimal.ZERO) <= 0){
             throw new InvalidTicketException("Total tickets must be greater than zero");
         }
+        //set event available tickets to total tickets
+        event.setEventAvailableTickets(event.getEventTotalTickets());
     }
 }
