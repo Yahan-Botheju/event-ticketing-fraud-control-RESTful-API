@@ -40,6 +40,12 @@ public class UseCaseBeanConfigs {
             TicketRepository ticketRepository,
             RedisLockService redisLockService
     ){
-        return new BuyTicketUseCaseImpl(eventRepository, ticketRepository, redisLockService);
+        return new BuyTicketUseCaseImpl(
+                eventRepository,
+                ticketRepository,
+                redisLockService,
+                this.eventLockPrefix
+
+        );
     }
 }
