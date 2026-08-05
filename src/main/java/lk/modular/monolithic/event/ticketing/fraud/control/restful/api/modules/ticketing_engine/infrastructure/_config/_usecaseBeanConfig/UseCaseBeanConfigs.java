@@ -25,6 +25,15 @@ public class UseCaseBeanConfigs {
         return this.eventLockPrefix;
     }
 
+    //redis expiration time
+    @Value("${application.security.redis.lock.expiration-second}")
+    private Long redisLockExpirationSeconds;
+
+    @Bean
+    public Long redisLockExpirationSeconds(){
+        return this.redisLockExpirationSeconds;
+    }
+
     //create event usecase impl
     @Bean
     public CreateEventUseCase createEventUseCase(
@@ -38,8 +47,8 @@ public class UseCaseBeanConfigs {
     public BuyTicketUseCase buyTicketUseCase(
             EventRepository eventRepository,
             TicketRepository ticketRepository,
-            RedisLockService redisLockService,
-            @Value("${application.security.redis.lock.expiration-second}") long redisLockExpirationSeconds
+            RedisLockService redisLockService
+//            @Value("${application.security.ticketing.code-prefix}") String ticketCodePrefix
     ){
 
         return new BuyTicketUseCaseImpl(
