@@ -58,6 +58,9 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
             //check ticket availability and reserving
             existingEvent.reserveTicket(1);
 
+            //save tickets in db
+            eventRepository.save(existingEvent);
+
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
         }
