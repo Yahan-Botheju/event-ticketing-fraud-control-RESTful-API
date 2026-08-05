@@ -1,5 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,19 @@ public class Event {
     private BigDecimal eventTicketPrice;
     private Long organizerId;
     private LocalDateTime createdAt;
+
+    /* __DOMAIN_BUSINESS_LOGIC__ */
+
+    //check ticket availability
+    public boolean isSoldOut(){
+        return this.eventAvailableTickets != null && this.eventAvailableTickets <= 0;
+    }
+
+    //reserve a ticket
+    public void reserveTicket(int ticketCount){
+        if(isSoldOut() || this.eventAvailableTickets < ticketCount){
+            throw new ConflictException("All tickets have been reserved");
+        }
+        this.eventAvailableTickets -= ticketCount;
+    }
 }
