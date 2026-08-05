@@ -6,6 +6,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -50,8 +51,12 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
         }
 
         try {
+            //check event availability
+            Event existingEvent = eventRepository.findById(eventId)
+                   .orElseThrow(() -> new ResourceNotFoundException("Event not found"));
 
-            Event event = eventRepository.findById()
+            //check ticket availability and reserving
+            existingEvent.reserveTicket(1);
 
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
