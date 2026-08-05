@@ -30,5 +30,7 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
         }
         //set event available tickets to total tickets
         event.setEventAvailableTickets(event.getEventTotalTickets());
+
+       return eventRepository.save(event);
     }
 }
