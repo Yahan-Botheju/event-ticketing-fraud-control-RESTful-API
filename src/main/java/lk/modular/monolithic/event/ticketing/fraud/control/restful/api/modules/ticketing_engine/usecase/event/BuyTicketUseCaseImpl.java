@@ -6,6 +6,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
 
     //inject required dependencies
@@ -30,7 +32,9 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
     @Override
     @Transactional
     public Ticket execute(Long ticketId, Long userId){
-
+        //create lock and identifier value
+        String lockKey = eventLockPrefix + ticketId;
+        String lockValue = UUID.randomUUID().toString();
 
     }
 }
