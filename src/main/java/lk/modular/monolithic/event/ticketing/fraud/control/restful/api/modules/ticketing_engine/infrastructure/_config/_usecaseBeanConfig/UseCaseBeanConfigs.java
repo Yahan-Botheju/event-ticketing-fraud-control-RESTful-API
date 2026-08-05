@@ -1,6 +1,10 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure._config._usecaseBeanConfig;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.BuyTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.BuyTicketUseCaseImpl;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCaseImpl;
 import org.springframework.context.annotation.Bean;
@@ -11,11 +15,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class UseCaseBeanConfigs {
 
-    //create event usecase
+    //create event usecase impl
     @Bean
     public CreateEventUseCase createEventUseCase(
             EventRepository eventRepository
     ) {
         return new CreateEventUseCaseImpl(eventRepository);
+    }
+
+    //buy ticket usecase impl
+    @Bean
+    public BuyTicketUseCase buyTicketUseCase(
+            EventRepository eventRepository,
+            TicketRepository ticketRepository,
+            RedisLockService redisLockService
+    ){
+        return new BuyTicketUseCaseImpl(eventRepository, ticketRepository, redisLockService);
     }
 }
