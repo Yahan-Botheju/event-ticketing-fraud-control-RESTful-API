@@ -19,19 +19,23 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
     private final RedisLockService redisLockService;
     private final String eventLockPrefix;
     private final long redisLockExpirationSeconds;
+    private final String ticketLockPrefix;
 
     public BuyTicketUseCaseImpl(
             EventRepository eventRepository,
             TicketRepository ticketRepository,
             RedisLockService redisLockService,
             String eventLockPrefix,
-            long redisLockExpirationSeconds
+            long redisLockExpirationSeconds,
+            String ticketLockPrefix
+
     ) {
         this.eventRepository = eventRepository;
         this.ticketRepository = ticketRepository;
         this.redisLockService = redisLockService;
         this.eventLockPrefix = eventLockPrefix;
         this.redisLockExpirationSeconds = redisLockExpirationSeconds;
+        this.ticketLockPrefix = ticketLockPrefix;
     }
 
     //buy ticket
