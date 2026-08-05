@@ -39,6 +39,7 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
         String lockKey = eventLockPrefix + ticketId;
         String lockValue = UUID.randomUUID().toString();
 
-        boolean isLocked = redisLockService.acquireLock(lockKey, lockValue, 5);
+        //lock
+        boolean isLocked = redisLockService.acquireLock(lockKey, lockValue, redisLockExpirationSeconds);
     }
 }
