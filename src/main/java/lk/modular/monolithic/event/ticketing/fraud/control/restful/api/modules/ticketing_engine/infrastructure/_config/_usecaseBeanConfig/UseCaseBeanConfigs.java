@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class UseCaseBeanConfigs {
 
+
+    /* __TIMES_AND_PREFIX__*/
+
+
     //redis lock event prefix
     @Value("${application.security.redis.lock.event-prefix}")
     private String eventLockPrefix;
@@ -34,6 +38,19 @@ public class UseCaseBeanConfigs {
         return this.redisLockExpirationSeconds;
     }
 
+    //ticket code prefix
+    @Value("${application.security.ticketing.code-prefix}")
+    private String ticketCodePrefix;
+
+    @Bean
+    public String ticketCodePrefix(){
+        return this.ticketCodePrefix;
+    }
+
+
+    /* __USE_CASES__*/
+
+
     //create event usecase impl
     @Bean
     public CreateEventUseCase createEventUseCase(
@@ -48,7 +65,7 @@ public class UseCaseBeanConfigs {
             EventRepository eventRepository,
             TicketRepository ticketRepository,
             RedisLockService redisLockService
-//            @Value("${application.security.ticketing.code-prefix}") String ticketCodePrefix
+//             String ticketCodePrefix
     ){
 
         return new BuyTicketUseCaseImpl(
