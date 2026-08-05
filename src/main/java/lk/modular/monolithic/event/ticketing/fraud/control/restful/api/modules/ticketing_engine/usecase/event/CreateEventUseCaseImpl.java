@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class CreateEventUseCaseImpl implements CreateEventUseCase {
 
     //inject required dependencies
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public CreateEventUseCaseImpl(
             EventRepository eventRepository
