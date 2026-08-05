@@ -5,5 +5,5 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 public interface BuyTicketUseCase {
 
     //buy ticket
-    Ticket execute(Long ticketId, Long userId);
+    Ticket execute(Long eventId, Long userId);
 }
