@@ -15,17 +15,20 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
     private final TicketRepository ticketRepository;
     private final RedisLockService redisLockService;
     private final String eventLockPrefix;
+    private final long redisLockExpirationSeconds;
 
     public BuyTicketUseCaseImpl(
             EventRepository eventRepository,
             TicketRepository ticketRepository,
             RedisLockService redisLockService,
-            String eventLockPrefix
+            String eventLockPrefix,
+            long redisLockExpirationSeconds
     ) {
         this.eventRepository = eventRepository;
         this.ticketRepository = ticketRepository;
         this.redisLockService = redisLockService;
         this.eventLockPrefix = eventLockPrefix;
+        this.redisLockExpirationSeconds = redisLockExpirationSeconds;
     }
 
     //buy ticket
@@ -36,5 +39,6 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
         String lockKey = eventLockPrefix + ticketId;
         String lockValue = UUID.randomUUID().toString();
 
+        boolean isLocked = redisLockService.acquireLock(lockKey, lockValue, 5);
     }
 }
