@@ -9,15 +9,18 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
     private final TicketRepository ticketRepository;
     private final RedisLockService redisLockService;
     private final String ticketScanLockPrefix;
+    private final Long ticketScanExpirationSeconds;
 
     public ScanTicketUseCaseImpl(
             TicketRepository ticketRepository,
             RedisLockService redisLockService,
-            String ticketScanLockPrefix
+            String ticketScanLockPrefix,
+            Long ticketScanExpirationSeconds
     ) {
         this.ticketRepository = ticketRepository;
         this.redisLockService = redisLockService;
         this.ticketScanLockPrefix = ticketScanLockPrefix;
+        this.ticketScanExpirationSeconds = ticketScanExpirationSeconds;
     }
 
 }
