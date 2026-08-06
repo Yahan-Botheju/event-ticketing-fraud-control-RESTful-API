@@ -126,7 +126,8 @@ public class UseCaseBeanConfigs {
         return new ScanTicketUseCaseImpl(
                 ticketRepository,
                 redisLockService,
-                ticketScanLockPrefix
+                ticketScanLockPrefix,
+                ticketScanExpirationSeconds
         );
     }
 }
