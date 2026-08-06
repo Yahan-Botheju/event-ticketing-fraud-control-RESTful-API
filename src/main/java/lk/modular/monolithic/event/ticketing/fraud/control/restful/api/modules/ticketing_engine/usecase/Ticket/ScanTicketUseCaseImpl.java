@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.InvalidTicketException;
 
 import java.util.UUID;
 
@@ -36,6 +37,20 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
 
         //create lock preventing scan twice in same time
         boolean isLocked = redisLockService.acquireLock(localKey, lockValue, ticketScanExpirationSeconds);
+
+        if(!isLocked){
+            throw new InvalidTicketException("Ticket scan in processed, try again later.");
+        }
+
+        try{
+            //check ticket availability
+            Ticket existingTicket = ticketRepository.findByTicketCode(ticketCode)
+                    .orElseThrow(() -> new InvalidTicketException("Ticket code not found."));
+
+        }finally {
+            redisLockService.releaseLock(localKey, lockValue);
+        }
+
     }
 
 }
