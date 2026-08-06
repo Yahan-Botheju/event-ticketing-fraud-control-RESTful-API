@@ -4,6 +4,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
 
+import java.util.UUID;
+
 public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
 
     //inject required dependencies
@@ -29,6 +31,8 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
     public Ticket execute(String ticketCode){
         //generate scan ticket key
         String localKey = ticketScanLockPrefix + ticketCode;
+        //lock value
+        String lockValue = UUID.randomUUID().toString();
     }
 
 }
