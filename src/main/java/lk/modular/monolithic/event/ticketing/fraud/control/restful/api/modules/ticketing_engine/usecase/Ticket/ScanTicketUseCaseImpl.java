@@ -8,12 +8,16 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
     //inject required dependencies
     private final TicketRepository ticketRepository;
     private final RedisLockService redisLockService;
+    private final String ticketScanLockPrefix;
 
     public ScanTicketUseCaseImpl(
             TicketRepository ticketRepository,
-            RedisLockService redisLockService
+            RedisLockService redisLockService,
+            String ticketScanLockPrefix
     ) {
         this.ticketRepository = ticketRepository;
         this.redisLockService = redisLockService;
+        this.ticketScanLockPrefix = ticketScanLockPrefix;
     }
+
 }
