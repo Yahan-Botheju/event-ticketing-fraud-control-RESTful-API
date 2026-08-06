@@ -5,6 +5,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCaseImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCaseImpl;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCaseImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,5 +77,14 @@ public class UseCaseBeanConfigs {
                 redisLockExpirationSeconds,
                 ticketCodePrefix
         );
+    }
+
+    //scan ticket usecase impl
+    @Bean
+    public ScanTicketUseCase  scanTicketUseCase(
+            TicketRepository ticketRepository,
+            RedisLockService redisLockService
+    ){
+        return new ScanTicketUseCaseImpl(ticketRepository, redisLockService);
     }
 }
