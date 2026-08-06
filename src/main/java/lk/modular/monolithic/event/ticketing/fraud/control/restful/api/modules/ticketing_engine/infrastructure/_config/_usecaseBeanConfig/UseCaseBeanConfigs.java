@@ -22,6 +22,9 @@ public class UseCaseBeanConfigs {
     /* __TIMES_AND_PREFIX__*/
 
 
+    /* --------------------- */
+
+
     //redis lock event prefix
     @Value("${application.security.redis.lock.event-prefix}")
     private String eventLockPrefix;
@@ -30,6 +33,9 @@ public class UseCaseBeanConfigs {
     public String eventLockPrefix(){
         return this.eventLockPrefix;
     }
+
+
+    /* --------------------- */
 
 
     //redis expiration time
@@ -42,6 +48,9 @@ public class UseCaseBeanConfigs {
     }
 
 
+    /* --------------------- */
+
+
     //ticket code prefix
     @Value("${application.security.ticketing.code-prefix}")
     private String ticketCodePrefix;
@@ -52,6 +61,9 @@ public class UseCaseBeanConfigs {
     }
 
 
+    /* --------------------- */
+
+
     //redis lock ticket scan prefix
     @Value("${application.security.redis.lock.ticket-scan-prefix}")
     private String ticketScanLockPrefix;
@@ -59,6 +71,19 @@ public class UseCaseBeanConfigs {
     @Bean
     public String ticketScanLockPrefix(){
         return this.ticketScanLockPrefix;
+    }
+
+
+    /* --------------------- */
+
+
+    //redis lock ticket scan expiration time
+    @Value("${application.security.redis.lock.ticket-scan-expiration-second}")
+    private Long ticketScanExpirationSeconds;
+
+    @Bean
+    public Long ticketScanExpirationSeconds(){
+        return this.ticketScanExpirationSeconds;
     }
 
 
