@@ -37,5 +37,7 @@ public class Ticket {
         if(this.ticketStatus == TicketStatus.CANCELLED ||  this.ticketStatus == TicketStatus.REFUNDED) {
             throw new InvalidTicketException("Ticket is already cancelled.");
         }
+        this.ticketStatus = TicketStatus.USED;
+        this.scannedAt = LocalDateTime.now();
     }
 }
