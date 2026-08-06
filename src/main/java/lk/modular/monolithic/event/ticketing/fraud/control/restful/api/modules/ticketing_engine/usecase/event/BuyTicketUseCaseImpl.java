@@ -2,6 +2,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.TicketStatus;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
@@ -9,6 +10,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.ex
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ResourceNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
@@ -67,6 +69,18 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
 
             //generate secure ticket code
             String secureTicketCode = ticketLockPrefix + UUID.randomUUID().toString();
+
+            //create new ticket
+            Ticket ticket = new Ticket(
+                    null,
+                    secureTicketCode,
+                    eventId,
+                    userId,
+                    existingEvent.getEventTicketPrice(),
+                    TicketStatus.PURCHASED,
+                    LocalDateTime.now(),
+                    null
+            );
 
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
