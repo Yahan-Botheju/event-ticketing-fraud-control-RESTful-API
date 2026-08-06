@@ -86,7 +86,7 @@ public class UseCaseBeanConfigs {
                 eventRepository,
                 ticketRepository,
                 redisLockService,
-                this.eventLockPrefix,
+                eventLockPrefix,
                 redisLockExpirationSeconds,
                 ticketCodePrefix
         );
@@ -98,6 +98,10 @@ public class UseCaseBeanConfigs {
             TicketRepository ticketRepository,
             RedisLockService redisLockService
     ){
-        return new ScanTicketUseCaseImpl(ticketRepository, redisLockService);
+        return new ScanTicketUseCaseImpl(
+                ticketRepository,
+                redisLockService,
+                ticketScanLockPrefix
+        );
     }
 }
