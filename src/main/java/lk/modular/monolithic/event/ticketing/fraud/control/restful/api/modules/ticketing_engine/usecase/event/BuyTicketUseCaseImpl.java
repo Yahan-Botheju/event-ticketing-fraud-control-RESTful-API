@@ -82,6 +82,8 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
                     null
             );
 
+            return  ticketRepository.save(ticket);
+
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
         }
