@@ -65,6 +65,9 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
             //save tickets in db
             eventRepository.save(existingEvent);
 
+            //generate secure ticket code
+            String secureTicketCode = ticketLockPrefix + UUID.randomUUID().toString();
+
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
         }
