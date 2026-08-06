@@ -47,6 +47,9 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
             Ticket existingTicket = ticketRepository.findByTicketCode(ticketCode)
                     .orElseThrow(() -> new InvalidTicketException("Ticket code not found."));
 
+            //set ticket as used
+            existingTicket.markAsUsed();
+
         }finally {
             redisLockService.releaseLock(localKey, lockValue);
         }
