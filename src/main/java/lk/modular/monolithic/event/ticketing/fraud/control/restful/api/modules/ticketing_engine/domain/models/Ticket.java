@@ -34,5 +34,8 @@ public class Ticket {
             throw new InvalidTicketException("Ticket is already used.");
         }
 
+        if(this.ticketStatus == TicketStatus.CANCELLED ||  this.ticketStatus == TicketStatus.REFUNDED) {
+            throw new InvalidTicketException("Ticket is already cancelled.");
+        }
     }
 }
