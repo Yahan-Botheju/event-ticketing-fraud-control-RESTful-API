@@ -50,6 +50,7 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
             //set ticket as used
             existingTicket.markAsUsed();
 
+            return ticketRepository.save(existingTicket);
         }finally {
             redisLockService.releaseLock(localKey, lockValue);
         }
