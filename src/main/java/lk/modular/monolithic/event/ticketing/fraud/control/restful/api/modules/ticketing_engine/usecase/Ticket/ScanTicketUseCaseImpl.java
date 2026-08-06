@@ -33,6 +33,9 @@ public class ScanTicketUseCaseImpl implements  ScanTicketUseCase {
         String localKey = ticketScanLockPrefix + ticketCode;
         //lock value
         String lockValue = UUID.randomUUID().toString();
+
+        //create lock preventing scan twice in same time
+        boolean isLocked = redisLockService.acquireLock(localKey, lockValue, ticketScanExpirationSeconds);
     }
 
 }
