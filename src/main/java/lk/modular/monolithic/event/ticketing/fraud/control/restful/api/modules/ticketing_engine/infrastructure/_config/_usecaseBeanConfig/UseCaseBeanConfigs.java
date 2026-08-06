@@ -3,8 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.BuyTicketUseCase;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.BuyTicketUseCaseImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.*;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCaseImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +19,9 @@ public class UseCaseBeanConfigs {
     /* __TIMES_AND_PREFIX__*/
 
 
+    /* --------------------- */
+
+
     //redis lock event prefix
     @Value("${application.security.redis.lock.event-prefix}")
     private String eventLockPrefix;
@@ -28,6 +30,10 @@ public class UseCaseBeanConfigs {
     public String eventLockPrefix(){
         return this.eventLockPrefix;
     }
+
+
+    /* --------------------- */
+
 
     //redis expiration time
     @Value("${application.security.redis.lock.expiration-second}")
@@ -38,6 +44,10 @@ public class UseCaseBeanConfigs {
         return this.redisLockExpirationSeconds;
     }
 
+
+    /* --------------------- */
+
+
     //ticket code prefix
     @Value("${application.security.ticketing.code-prefix}")
     private String ticketCodePrefix;
@@ -46,6 +56,33 @@ public class UseCaseBeanConfigs {
     public String ticketCodePrefix(){
         return this.ticketCodePrefix;
     }
+
+
+    /* --------------------- */
+
+
+    //redis lock ticket scan prefix
+    @Value("${application.security.redis.lock.ticket-scan-prefix}")
+    private String ticketScanLockPrefix;
+
+    @Bean
+    public String ticketScanLockPrefix(){
+        return this.ticketScanLockPrefix;
+    }
+
+
+    /* --------------------- */
+
+
+    //redis lock ticket scan expiration time
+    @Value("${application.security.redis.lock.ticket-scan-expiration-second}")
+    private Long ticketScanExpirationSeconds;
+
+    @Bean
+    public Long ticketScanExpirationSeconds(){
+        return this.ticketScanExpirationSeconds;
+    }
+
 
 
     /* __USE_CASES__*/
@@ -71,9 +108,31 @@ public class UseCaseBeanConfigs {
                 eventRepository,
                 ticketRepository,
                 redisLockService,
-                this.eventLockPrefix,
+                eventLockPrefix,
                 redisLockExpirationSeconds,
                 ticketCodePrefix
         );
+    }
+
+    //scan ticket usecase impl
+    @Bean
+    public ScanTicketUseCase  scanTicketUseCase(
+            TicketRepository ticketRepository,
+            RedisLockService redisLockService
+    ){
+        return new ScanTicketUseCaseImpl(
+                ticketRepository,
+                redisLockService,
+                ticketScanLockPrefix,
+                ticketScanExpirationSeconds
+        );
+    }
+
+    //transfer ticket usecase impl
+    @Bean
+    public TransferTicketUseCase transferTicketUseCase(
+            TicketRepository ticketRepository
+    ){
+        return new TransferTicketUseCaseImpl(ticketRepository);
     }
 }
