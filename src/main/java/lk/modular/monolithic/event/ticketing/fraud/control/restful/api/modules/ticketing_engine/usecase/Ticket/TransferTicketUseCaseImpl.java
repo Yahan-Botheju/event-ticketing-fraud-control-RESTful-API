@@ -29,5 +29,7 @@ public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
         if(findTicket.getOwnerId().equals(currentOwnerId)){
             throw new UnauthorizedException("You are not allowed to transfer this ticket");
         }
+        //set new ownership
+        findTicket.transferOwnerShip(newOwnerId);
     }
 }
