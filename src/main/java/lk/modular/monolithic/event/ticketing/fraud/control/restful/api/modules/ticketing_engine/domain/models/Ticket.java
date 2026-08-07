@@ -1,5 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.InvalidTicketException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,15 +30,23 @@ public class Ticket {
 
     /* __DOMAIN_BUSINESS_LOGICS__ */
 
+    //set ticket usage
     public void markAsUsed() {
         if(this.ticketStatus == TicketStatus.USED) {
             throw new InvalidTicketException("Ticket is already used.");
         }
-
         if(this.ticketStatus == TicketStatus.CANCELLED ||  this.ticketStatus == TicketStatus.REFUNDED) {
             throw new InvalidTicketException("Ticket is already cancelled.");
         }
         this.ticketStatus = TicketStatus.USED;
         this.scannedAt = LocalDateTime.now();
+    }
+
+    //transfer ownership
+    public void transferOwnerShip(Long newOwnerId) {
+        if(this.ticketStatus != TicketStatus.PURCHASED) {
+            throw new ConflictException("Only purchased ticket and unused ticket can be transferred.");
+        }
+
     }
 }
