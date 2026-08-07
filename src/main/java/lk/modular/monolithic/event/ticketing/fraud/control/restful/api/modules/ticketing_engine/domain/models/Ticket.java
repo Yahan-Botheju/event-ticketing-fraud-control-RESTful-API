@@ -1,7 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.exception.ConflictException;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.exception.InvalidTicketException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.InvalidTicketException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

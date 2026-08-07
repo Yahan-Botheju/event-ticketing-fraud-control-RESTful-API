@@ -2,7 +2,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.exception.InvalidTicketException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.InvalidTicketException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.DTOs;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
