@@ -1,6 +1,6 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._config._webMvcConfig;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.webMvcConfig;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._resolver.CurrentUserIdArgumentResolver;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.resolver.CurrentUserIdArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

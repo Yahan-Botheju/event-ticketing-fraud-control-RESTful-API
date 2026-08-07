@@ -1,8 +1,8 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._resolver;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.resolver;
 
 import jakarta.annotation.Nonnull;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetails;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.annotation.CurrentUserId;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.UnauthorizedException;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
