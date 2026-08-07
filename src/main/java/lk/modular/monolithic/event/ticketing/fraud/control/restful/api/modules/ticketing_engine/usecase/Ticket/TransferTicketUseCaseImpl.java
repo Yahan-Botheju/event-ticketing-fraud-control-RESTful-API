@@ -1,6 +1,8 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ResourceNotFoundException;
 
 public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
 
@@ -9,5 +11,19 @@ public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
 
     public TransferTicketUseCaseImpl(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
+    }
+
+    //transfer a ticket
+    @Override
+    public Ticket transferTicket(
+            Long ticketId,
+            Long currentOwnerId,
+            Long newOwnerId
+    ){
+        //check ticket availability
+        Ticket findTicket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
+
+
     }
 }
