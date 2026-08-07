@@ -4,7 +4,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.IdentityProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ConflictException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.exception.ConflictException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {

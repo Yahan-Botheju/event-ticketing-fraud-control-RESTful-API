@@ -1,4 +1,4 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.config;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.redis.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Qualifier;

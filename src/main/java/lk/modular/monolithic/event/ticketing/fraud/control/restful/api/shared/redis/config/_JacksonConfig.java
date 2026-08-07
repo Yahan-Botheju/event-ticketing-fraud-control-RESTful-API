@@ -1,4 +1,4 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.config;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;

@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.InvalidTicketException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.exception.InvalidTicketException;
 
 import javax.crypto.SecretKey;
 import java.util.Date;

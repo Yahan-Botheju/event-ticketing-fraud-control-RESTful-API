@@ -1,7 +1,7 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.exception;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.DTOs.ApiResponse;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.DTOs.ErrorDetails;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.DTOs.ApiResponse;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handler.DTOs.ErrorDetails;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
