@@ -48,5 +48,8 @@ public class Ticket {
             throw new ConflictException("Only purchased ticket and unused ticket can be transferred.");
         }
 
+        //set new owner id and set ticket status
+        this.ownerId = newOwnerId;
+        this.ticketStatus = TicketStatus.TRANSFERRED;
     }
 }
