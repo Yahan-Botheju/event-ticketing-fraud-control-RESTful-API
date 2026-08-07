@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.ResourceNotFoundException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.exception.UnauthorizedException;
 
 public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
 
@@ -24,6 +25,9 @@ public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
         Ticket findTicket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
 
-
+        //check ticket is owned by actual owner
+        if(findTicket.getOwnerId().equals(currentOwnerId)){
+            throw new UnauthorizedException("You are not allowed to transfer this ticket");
+        }
     }
 }
