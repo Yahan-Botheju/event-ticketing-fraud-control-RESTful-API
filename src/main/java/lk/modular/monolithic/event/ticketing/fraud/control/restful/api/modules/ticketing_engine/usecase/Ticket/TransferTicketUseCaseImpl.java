@@ -31,5 +31,7 @@ public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
         }
         //set new ownership
         findTicket.transferOwnerShip(newOwnerId);
+
+        return ticketRepository.save(findTicket);
     }
 }
