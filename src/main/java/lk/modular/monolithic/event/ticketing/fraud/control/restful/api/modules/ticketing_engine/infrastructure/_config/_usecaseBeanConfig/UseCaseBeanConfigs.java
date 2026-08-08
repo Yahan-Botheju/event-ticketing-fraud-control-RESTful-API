@@ -3,21 +3,18 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.buy.BuyTicketUseCase;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.buy.BuyTicketUseCaseImpl;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.scan.ScanTicketUseCase;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.scan.ScanTicketUseCaseImpl;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.transfer.TransferTicketUseCase;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.transfer.TransferTicketUseCaseImpl;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCase;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCaseImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCaseImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCaseImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCaseImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement
 public class UseCaseBeanConfigs {
 
 
@@ -139,5 +136,22 @@ public class UseCaseBeanConfigs {
             TicketRepository ticketRepository
     ){
         return new TransferTicketUseCaseImpl(ticketRepository);
+    }
+
+
+    //get all events use case impl
+    @Bean
+    public GetAllEventsUseCase getAllEventsUseCase(
+            EventRepository eventRepository
+    ){
+        return new GetAllEventsUseCaseImpl(eventRepository);
+    }
+
+    //get event by id use case Impl
+    @Bean
+    public EventByIdUseCase  eventByIdUseCase(
+            EventRepository eventRepository
+    ){
+        return new EventByIdUseCaseImpl(eventRepository);
     }
 }
