@@ -6,6 +6,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket.jpa.JpaTicketRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket.persistenceMapper.TicketPersistenceMapper;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,12 +28,14 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     //ticket find by id
     @Override
+    @Transactional
     public Optional<Ticket> findById(Long ticketId) {
         return jpaTicketRepository.findById(ticketId).map(ticketPersistenceMapper::toDomainModel);
     }
 
     //find ticket by code
     @Override
+    @Transactional
     public Optional<Ticket> findByTicketCode(String ticketCode){
         return jpaTicketRepository.findByTicketCode(ticketCode).map(ticketPersistenceMapper::toDomainModel);
     }
@@ -41,6 +44,7 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     //save ticket
     @Override
+    @Transactional
     public Ticket save(Ticket ticket){
         if (jpaTicketRepository.existsById(ticket.getTicketId())){
             throw new ConflictException("Ticket already exists");
