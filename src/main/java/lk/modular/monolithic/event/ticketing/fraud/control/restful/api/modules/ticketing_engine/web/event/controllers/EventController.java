@@ -1,6 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.controllers;
 
 import jakarta.validation.Valid;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.getAll_events.GetAllEventsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.create_event.CreateEventUseCase;
@@ -21,14 +22,17 @@ public class EventController {
 
     //inject required dependencies
     private final CreateEventUseCase createEventUseCase;
+    private final GetAllEventsUseCase getAllEventsUseCase;
     private final EventWebMapper eventWebMapper;
 
     public EventController(
             CreateEventUseCase createEventUseCase,
-            EventWebMapper eventWebMapper
+            EventWebMapper eventWebMapper,
+            GetAllEventsUseCase getAllEventsUseCase
     ) {
         this.createEventUseCase = createEventUseCase;
         this.eventWebMapper = eventWebMapper;
+        this.getAllEventsUseCase = getAllEventsUseCase;
     }
 
     //create event
