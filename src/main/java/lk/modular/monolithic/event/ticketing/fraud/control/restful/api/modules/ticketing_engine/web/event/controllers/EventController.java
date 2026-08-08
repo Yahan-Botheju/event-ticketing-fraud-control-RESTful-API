@@ -1,6 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.controllers;
 
 import jakarta.validation.Valid;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.EventByIdUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.GetAllEventsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
@@ -23,15 +24,18 @@ public class EventController {
     private final CreateEventUseCase createEventUseCase;
     private final GetAllEventsUseCase getAllEventsUseCase;
     private final EventWebMapper eventWebMapper;
+    private final EventByIdUseCase eventByIdUseCase;
 
     public EventController(
             CreateEventUseCase createEventUseCase,
             EventWebMapper eventWebMapper,
-            GetAllEventsUseCase getAllEventsUseCase
+            GetAllEventsUseCase getAllEventsUseCase,
+            EventByIdUseCase eventByIdUseCase
     ) {
         this.createEventUseCase = createEventUseCase;
         this.eventWebMapper = eventWebMapper;
         this.getAllEventsUseCase = getAllEventsUseCase;
+        this.eventByIdUseCase = eventByIdUseCase;
     }
 
     //create event
@@ -64,5 +68,7 @@ public class EventController {
 
         return ResponseEntity.ok(ApiResponse.success(responseDTOS));
     }
+
+    //get event by id
 
 }
