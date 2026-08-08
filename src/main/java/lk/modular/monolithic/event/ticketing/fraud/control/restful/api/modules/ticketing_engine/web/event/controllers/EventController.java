@@ -70,5 +70,14 @@ public class EventController {
     }
 
     //get event by id
+    @GetMapping("/{eventId}")
+    public ResponseEntity<ApiResponse<EventResponseDTO>> getEventById(
+            @PathVariable("eventId") Long eventId
+    ){
+        Event getEventById = eventByIdUseCase.getByEventId(eventId);
+        EventResponseDTO responseDTO = eventWebMapper.toResponseDTO(getEventById);
+
+        return ResponseEntity.ok(ApiResponse.success(responseDTO));
+    }
 
 }
