@@ -11,10 +11,9 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/events")
@@ -53,6 +52,17 @@ public class EventController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success(responseDTO));
+    }
+
+    //get all events
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<EventResponseDTO>>> getAllEvents(){
+
+        List<Event> getAllEvents = getAllEventsUseCase.getAllEvents();
+        List<EventResponseDTO> responseDTOS = getAllEvents.stream()
+                .map(eventWebMapper::toResponseDTO).toList();
+
+        return ResponseEntity.ok(ApiResponse.success(responseDTOS));
     }
 
 }
