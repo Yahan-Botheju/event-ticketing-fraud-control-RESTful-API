@@ -7,13 +7,13 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.sh
 
 import java.util.List;
 
-public class GetAllTicketsUseCaseImpl implements  GetAllTicketsUseCase {
+public class GetMyTicketsUseCaseImpl implements GetMyTicketsUseCase {
 
     //inject required dependencies
     private final TicketRepository ticketRepository;
     private final UserValidationClientRepository userValidationClientRepository;
 
-    public GetAllTicketsUseCaseImpl(
+    public GetMyTicketsUseCaseImpl(
             TicketRepository ticketRepository,
             UserValidationClientRepository userValidationClientRepository
     ) {

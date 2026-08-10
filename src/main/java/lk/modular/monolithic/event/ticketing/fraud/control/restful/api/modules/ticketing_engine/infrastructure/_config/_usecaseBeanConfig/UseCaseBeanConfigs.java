@@ -158,10 +158,10 @@ public class UseCaseBeanConfigs {
 
     //get all tickets of a user
     @Bean
-    public GetAllTicketsUseCase getAllTicketsUseCase(
+    public GetMyTicketsUseCase getAllTicketsUseCase(
             TicketRepository ticketRepository,
             UserValidationClientRepository  userValidationClientRepository
     ){
-        return new GetAllTicketsUseCaseImpl(ticketRepository, userValidationClientRepository);
+        return new GetMyTicketsUseCaseImpl(ticketRepository, userValidationClientRepository);
     }
 }

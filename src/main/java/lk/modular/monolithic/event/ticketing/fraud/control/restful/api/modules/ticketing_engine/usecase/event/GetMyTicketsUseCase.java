@@ -4,7 +4,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 
 import java.util.List;
 
-public interface GetAllTicketsUseCase {
+public interface GetMyTicketsUseCase {
 
     //find all tickets of a user
     List<Ticket> findMyTickets(Long userId);
