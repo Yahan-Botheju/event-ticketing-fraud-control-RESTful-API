@@ -26,7 +26,7 @@ public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
 
         //check ticket is owned by actual owner
-        if(findTicket.getOwnerId().equals(currentOwnerId)){
+        if(!findTicket.getOwnerId().equals(currentOwnerId)){
             throw new UnauthorizedException("You are not allowed to transfer this ticket");
         }
         //set new ownership
