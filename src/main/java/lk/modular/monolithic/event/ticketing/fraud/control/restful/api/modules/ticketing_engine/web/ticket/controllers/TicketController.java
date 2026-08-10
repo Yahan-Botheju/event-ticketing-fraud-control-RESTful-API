@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/tickets")
 public class TicketController {
@@ -81,5 +83,15 @@ public class TicketController {
         return ResponseEntity.ok(ApiResponse.success(responseDTO));
     }
 
+    //get my all tickets
+    @GetMapping("/my-tickets")
+    public ResponseEntity<ApiResponse<List<TicketResponseDTO>>> getMyTickets(
+            @CurrentUserId Long userId
+    ){
+        List<Ticket> userTickets = getMyTicketsUseCase.findMyTickets(userId);
+        List<TicketResponseDTO> responseDTOS = userTickets.stream()
+                .map(ticketWebMapper::toResponseDTO).toList();
 
+        return ResponseEntity.ok(ApiResponse.success(responseDTOS));
+    }
 }
