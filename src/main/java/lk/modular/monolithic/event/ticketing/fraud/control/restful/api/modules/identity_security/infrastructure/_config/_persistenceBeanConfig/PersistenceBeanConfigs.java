@@ -6,6 +6,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.UserRepositoryImpl;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.jpa.JpaUserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.persistenceMapper.UserPersistenceMapper;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.shared_domain_usage.UserValidationClientRepositoryImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.shared_domain.SharedRepositories.UserValidationClientRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +32,15 @@ public class PersistenceBeanConfigs {
             @Qualifier("refreshTokenPrefix") String refreshTokenPrefix
     ) {
         return new RedisTokenRepositoryImpl(redisTemplate, refreshTokenPrefix);
+    }
+
+    // user validation client repository bean config
+    @Bean
+    public UserValidationClientRepository userValidationClientRepository(
+            JpaUserRepository jpaUserRepository,
+            UserPersistenceMapper userPersistenceMapper
+    ){
+        return new UserValidationClientRepositoryImpl(jpaUserRepository, userPersistenceMapper);
     }
 
 }
