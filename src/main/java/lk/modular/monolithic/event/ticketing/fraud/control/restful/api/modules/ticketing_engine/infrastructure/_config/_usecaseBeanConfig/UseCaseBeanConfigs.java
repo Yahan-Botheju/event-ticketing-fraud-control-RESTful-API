@@ -9,6 +9,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.sh
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 public class UseCaseBeanConfigs {
@@ -88,6 +89,7 @@ public class UseCaseBeanConfigs {
 
     //create event usecase impl
     @Bean
+    @Transactional
     public CreateEventUseCase createEventUseCase(
             EventRepository eventRepository
     ) {
@@ -96,6 +98,7 @@ public class UseCaseBeanConfigs {
 
     //buy ticket usecase impl
     @Bean
+    @Transactional
     public BuyTicketUseCase buyTicketUseCase(
             EventRepository eventRepository,
             TicketRepository ticketRepository,

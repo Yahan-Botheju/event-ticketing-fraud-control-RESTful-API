@@ -8,7 +8,6 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ResourceNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -42,7 +41,6 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
 
     //buy ticket
     @Override
-    @Transactional
     public Ticket execute(Long eventId, Long userId){
         //create lock and identifier value
         String lockKey = eventLockPrefix + eventId;
