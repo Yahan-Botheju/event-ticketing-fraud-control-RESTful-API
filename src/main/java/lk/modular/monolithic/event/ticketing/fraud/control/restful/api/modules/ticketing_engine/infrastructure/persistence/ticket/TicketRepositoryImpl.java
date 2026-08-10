@@ -48,7 +48,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     //find all tickets of a user
     @Override
     public List<Ticket> findMyTickets(Long userId) {
-        return jpaTicketRepository.findAllTicketsByUser_OwnerId(userId).stream()
+        return jpaTicketRepository.findByOwnerId(userId).stream()
                 .map(ticketPersistenceMapper::toDomainModel).toList();
     }
 
