@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import jakarta.validation.Valid;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.GetMyTicketsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TicketResponseDTO;
@@ -22,17 +23,21 @@ public class TicketController {
     private final BuyTicketUseCase  buyTicketUseCase;
     private final ScanTicketUseCase scanTicketUseCase;
     private final TransferTicketUseCase  transferTicketUseCase;
+    private final GetMyTicketsUseCase getMyTicketsUseCase;
     private final TicketWebMapper ticketWebMapper;
+
 
     public TicketController(
             BuyTicketUseCase buyTicketUseCase,
             ScanTicketUseCase scanTicketUseCase,
             TransferTicketUseCase transferTicketUseCase,
+            GetMyTicketsUseCase getMyTicketsUseCase,
             TicketWebMapper ticketWebMapper
     ) {
         this.buyTicketUseCase = buyTicketUseCase;
         this.scanTicketUseCase = scanTicketUseCase;
         this.transferTicketUseCase = transferTicketUseCase;
+        this.getMyTicketsUseCase = getMyTicketsUseCase;
         this.ticketWebMapper = ticketWebMapper;
     }
 
@@ -75,4 +80,6 @@ public class TicketController {
 
         return ResponseEntity.ok(ApiResponse.success(responseDTO));
     }
+
+
 }
