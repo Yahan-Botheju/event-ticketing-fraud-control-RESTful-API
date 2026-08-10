@@ -1,8 +1,11 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.shared_domain_usage;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.jpa.JpaUserRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure.persistence.user.persistenceMapper.UserPersistenceMapper;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.shared_domain.SharedRepositories.UserValidationClientRepository;
+
+import java.util.Optional;
 
 public class UserValidationClientRepositoryImpl implements UserValidationClientRepository {
 
@@ -17,5 +20,17 @@ public class UserValidationClientRepositoryImpl implements UserValidationClientR
     ) {
         this.jpaUserRepository = jpaUserRepository;
         this.userPersistenceMapper = userPersistenceMapper;
+    }
+
+    //check user existence for TICKETING_ENGINE module
+    /*
+     * Interface / port available in -> shared/shared_domain/SharedRepositories/
+     */
+
+    //user find by id
+    @Override
+    public Optional<User> userValidateById(Long userId){
+        return jpaUserRepository.findById(userId)
+                .map(userPersistenceMapper::toDomainModel);
     }
 }
