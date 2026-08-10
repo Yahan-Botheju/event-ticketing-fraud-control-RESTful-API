@@ -49,4 +49,15 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success(responseDTO));
     }
+
+    //scan ticket at event counter
+    @PostMapping("/scan/{ticketCode}")
+    public ResponseEntity<ApiResponse<TicketResponseDTO>> scanTicket(
+            @PathVariable("ticketCode") String ticketCode
+    ){
+        Ticket scanTicket = scanTicketUseCase.execute(ticketCode);
+        TicketResponseDTO responseDTO = ticketWebMapper.toResponseDTO(scanTicket);
+
+        return ResponseEntity.ok(ApiResponse.success(responseDTO));
+    }
 }
