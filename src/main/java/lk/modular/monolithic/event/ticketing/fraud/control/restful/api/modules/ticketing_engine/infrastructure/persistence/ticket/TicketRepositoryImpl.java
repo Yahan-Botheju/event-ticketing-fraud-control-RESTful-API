@@ -8,6 +8,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public class TicketRepositoryImpl implements TicketRepository {
@@ -40,7 +41,17 @@ public class TicketRepositoryImpl implements TicketRepository {
         return jpaTicketRepository.findByTicketCode(ticketCode).map(ticketPersistenceMapper::toDomainModel);
     }
 
+
     /* __PUBLIC_METHOD__ */
+
+
+    //find all tickets of a user
+    @Override
+    public List<Ticket> findMyTickets(Long userId) {
+        return jpaTicketRepository.findAllTicketsByUser_OwnerId(userId).stream()
+                .map(ticketPersistenceMapper::toDomainModel).toList();
+    }
+
 
     //save ticket
     @Override
@@ -54,4 +65,5 @@ public class TicketRepositoryImpl implements TicketRepository {
 
         return ticketPersistenceMapper.toDomainModel(savedTicket);
     }
+
 }
