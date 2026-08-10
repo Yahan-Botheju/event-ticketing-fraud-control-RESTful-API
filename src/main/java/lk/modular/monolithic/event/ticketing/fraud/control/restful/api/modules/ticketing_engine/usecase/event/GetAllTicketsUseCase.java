@@ -7,5 +7,5 @@ import java.util.List;
 public interface GetAllTicketsUseCase {
 
     //find all tickets of a user
-    List<Ticket> findAllTicketsByUserId(Long userId);
+    List<Ticket> findMyTickets(Long userId);
 }
