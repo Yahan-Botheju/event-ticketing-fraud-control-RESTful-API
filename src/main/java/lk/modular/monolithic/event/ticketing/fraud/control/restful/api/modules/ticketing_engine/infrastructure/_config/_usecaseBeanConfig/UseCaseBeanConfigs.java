@@ -154,4 +154,12 @@ public class UseCaseBeanConfigs {
     ){
         return new EventByIdUseCaseImpl(eventRepository);
     }
+
+    //get all tickets of a user
+    @Bean
+    public GetAllTicketsUseCase getAllTicketsUseCase(
+            TicketRepository ticketRepository
+    ){
+        return new GetAllTicketsUseCaseImpl(ticketRepository);
+    }
 }
