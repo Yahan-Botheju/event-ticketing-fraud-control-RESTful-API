@@ -10,6 +10,7 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCaseImpl;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.*;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.shared_domain.SharedRepositories.UserValidationClientRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -158,8 +159,9 @@ public class UseCaseBeanConfigs {
     //get all tickets of a user
     @Bean
     public GetAllTicketsUseCase getAllTicketsUseCase(
-            TicketRepository ticketRepository
+            TicketRepository ticketRepository,
+            UserValidationClientRepository  userValidationClientRepository
     ){
-        return new GetAllTicketsUseCaseImpl(ticketRepository);
+        return new GetAllTicketsUseCaseImpl(ticketRepository, userValidationClientRepository);
     }
 }
