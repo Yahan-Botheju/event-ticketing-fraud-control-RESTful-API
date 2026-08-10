@@ -12,5 +12,5 @@ public interface JpaTicketRepository extends JpaRepository<TicketEntity, Long> {
     Optional<TicketEntity> findByTicketCode(String ticketCode);
 
     //find all tickets of a user
-    List<TicketEntity> findAllTicketsByUser_OwnerId(Long ownerId);
+    List<TicketEntity> findByOwnerId(Long ownerId);
 }
