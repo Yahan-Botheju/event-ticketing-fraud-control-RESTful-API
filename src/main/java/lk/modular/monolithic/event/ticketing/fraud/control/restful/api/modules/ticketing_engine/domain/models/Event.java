@@ -1,6 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketReservedException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +35,7 @@ public class Event {
     //reserve a ticket
     public void reserveTicket(int ticketCount){
         if(isSoldOut() || this.eventAvailableTickets < ticketCount){
-            throw new ConflictException("All tickets have been reserved");
+            throw new TicketReservedException("All tickets have been reserved");
         }
         this.eventAvailableTickets -= ticketCount;
     }

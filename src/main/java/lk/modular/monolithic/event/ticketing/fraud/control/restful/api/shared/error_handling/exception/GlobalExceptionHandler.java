@@ -1,5 +1,8 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketAlreadyUsedException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketReservedException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketTransferNotAllowedExecption;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ApiResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ErrorDetails;
 import org.apache.coyote.BadRequestException;
@@ -104,6 +107,34 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidTicketException.class)
     public ResponseEntity<ApiResponse<Void>> handleInvalidTicketException(
             InvalidTicketException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    /* __DOMAIN_EXCEPTIONS__ */
+
+    //409
+    @ExceptionHandler(TicketTransferNotAllowedExecption.class)
+    public ResponseEntity<ApiResponse<Void>> handleTicketSoldOutException(
+            TicketTransferNotAllowedExecption ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(TicketReservedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleTicketReservedException(
+            TicketReservedException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    //400
+    @ExceptionHandler(TicketAlreadyUsedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleTicketAlreadyUsedException(
+            TicketAlreadyUsedException ex,
             WebRequest request
     ){
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
