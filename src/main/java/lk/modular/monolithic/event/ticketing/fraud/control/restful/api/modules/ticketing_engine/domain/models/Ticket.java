@@ -1,7 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.InvalidTicketException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketAlreadyUsedException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketTransferNotAllowedExecption;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,10 +33,10 @@ public class Ticket {
     //set ticket usage
     public void markAsUsed() {
         if(this.ticketStatus == TicketStatus.USED) {
-            throw new InvalidTicketException("Ticket is already used.");
+            throw new TicketAlreadyUsedException("Ticket is already used.");
         }
         if(this.ticketStatus == TicketStatus.CANCELLED ||  this.ticketStatus == TicketStatus.REFUNDED) {
-            throw new InvalidTicketException("Ticket is already cancelled.");
+            throw new TicketAlreadyUsedException("Ticket is already cancelled.");
         }
         this.ticketStatus = TicketStatus.USED;
         this.scannedAt = LocalDateTime.now();
@@ -45,7 +45,7 @@ public class Ticket {
     //transfer ownership
     public void transferOwnerShip(Long newOwnerId) {
         if(this.ticketStatus != TicketStatus.PURCHASED) {
-            throw new ConflictException("Only purchased ticket and unused ticket can be transferred.");
+            throw new TicketTransferNotAllowedExecption("Only purchased ticket and unused ticket can be transferred.");
         }
 
         //set new owner id and set ticket status
