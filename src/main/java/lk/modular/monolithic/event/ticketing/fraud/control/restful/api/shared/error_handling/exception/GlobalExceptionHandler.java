@@ -1,13 +1,12 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketAlreadyUsedException;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketSoldOutException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketTransferNotAllowedExecption;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ApiResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ErrorDetails;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -115,9 +114,9 @@ public class GlobalExceptionHandler {
     /* __DOMAIN_EXCEPTIONS__ */
 
     //409
-    @ExceptionHandler(TicketSoldOutException.class)
+    @ExceptionHandler(TicketTransferNotAllowedExecption.class)
     public ResponseEntity<ApiResponse<Void>> handleTicketSoldOutException(
-            TicketSoldOutException ex,
+            TicketTransferNotAllowedExecption ex,
             WebRequest request
     ){
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
