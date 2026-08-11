@@ -1,5 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketAlreadyUsedException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketSoldOutException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ApiResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ErrorDetails;
@@ -117,6 +118,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TicketSoldOutException.class)
     public ResponseEntity<ApiResponse<Void>> handleTicketSoldOutException(
             TicketSoldOutException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
+    }
+
+    //400
+    @ExceptionHandler(TicketAlreadyUsedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleTicketAlreadyUsedException(
+            TicketAlreadyUsedException ex,
             WebRequest request
     ){
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
