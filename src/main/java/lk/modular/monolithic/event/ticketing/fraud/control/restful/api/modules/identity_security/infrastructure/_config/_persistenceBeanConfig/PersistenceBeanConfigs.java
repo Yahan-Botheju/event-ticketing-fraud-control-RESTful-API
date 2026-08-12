@@ -37,10 +37,9 @@ public class PersistenceBeanConfigs {
     // user validation client repository bean config
     @Bean
     public UserValidationClientRepository userValidationClientRepository(
-            JpaUserRepository jpaUserRepository,
-            UserPersistenceMapper userPersistenceMapper
+            JpaUserRepository jpaUserRepository
     ){
-        return new UserValidationClientRepositoryImpl(jpaUserRepository, userPersistenceMapper);
+        return new UserValidationClientRepositoryImpl(jpaUserRepository);
     }
 
 }

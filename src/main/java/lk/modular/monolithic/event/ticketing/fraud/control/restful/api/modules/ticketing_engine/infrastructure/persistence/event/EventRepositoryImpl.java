@@ -50,10 +50,6 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     @Transactional
     public Event save(Event event){
-        if(jpaEventRepository.existsById(event.getEventId())) {
-            throw new ConflictException("Event with id " + event.getEventId() + " already exists");
-        }
-
         EventEntity eventEntity = eventPersistenceMapper.toEntity(event);
         EventEntity savedEntity = jpaEventRepository.save(eventEntity);
 

@@ -24,8 +24,9 @@ public class GetMyTicketsUseCaseImpl implements GetMyTicketsUseCase {
     //find all tickets of a user
     @Override
     public List<Ticket> findMyTickets(Long userId) {
-        userValidationClientRepository.userValidateById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found" + userId));
+        if(!userValidationClientRepository.userValidateById(userId)){
+            throw new ResourceNotFoundException("User not found");
+        }
 
         return ticketRepository.findMyTickets(userId);
     }
