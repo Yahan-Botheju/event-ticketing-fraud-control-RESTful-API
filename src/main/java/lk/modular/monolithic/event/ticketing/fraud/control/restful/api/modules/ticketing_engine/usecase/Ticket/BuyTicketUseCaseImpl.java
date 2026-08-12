@@ -66,7 +66,7 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
             eventRepository.save(existingEvent);
 
             //generate secure ticket code
-            String secureTicketCode = ticketLockPrefix + UUID.randomUUID().toString();
+            String secureTicketCode = ticketCodePrefix + UUID.randomUUID().toString();
 
             //create new ticket
             Ticket ticket = new Ticket(
