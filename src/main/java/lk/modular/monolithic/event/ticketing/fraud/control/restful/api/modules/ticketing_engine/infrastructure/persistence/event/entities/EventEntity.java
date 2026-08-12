@@ -14,9 +14,7 @@ import java.time.LocalDateTime;
         name = "events",
         schema = "ticketing_schema",
         indexes = {
-                @Index(name = "idx_ticket_code", columnList = "ticket_code", unique = true),
-                @Index(name = "idx_owner_id", columnList = "owner_id" ),
-                @Index(name = "idx_event_id", columnList = "event_id")
+                @Index(name = "idx_organizer_id", columnList = "organizer_id")
         }
 )
 @Data
