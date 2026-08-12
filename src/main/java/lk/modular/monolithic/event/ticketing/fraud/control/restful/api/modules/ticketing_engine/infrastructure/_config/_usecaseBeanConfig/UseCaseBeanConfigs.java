@@ -1,5 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure._config._usecaseBeanConfig;
 
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventPublisher;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
@@ -102,13 +103,15 @@ public class UseCaseBeanConfigs {
     public BuyTicketUseCase buyTicketUseCase(
             EventRepository eventRepository,
             TicketRepository ticketRepository,
-            RedisLockService redisLockService
+            RedisLockService redisLockService,
+            EventPublisher eventPublisher
     ){
 
         return new BuyTicketUseCaseImpl(
                 eventRepository,
                 ticketRepository,
                 redisLockService,
+                eventPublisher,
                 eventLockPrefix,
                 redisLockExpirationSeconds,
                 ticketCodePrefix
