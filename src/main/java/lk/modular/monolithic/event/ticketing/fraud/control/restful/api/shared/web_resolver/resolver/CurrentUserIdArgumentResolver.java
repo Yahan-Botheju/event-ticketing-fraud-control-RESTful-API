@@ -36,12 +36,6 @@ public class CurrentUserIdArgumentResolver implements HandlerMethodArgumentResol
             @Nonnull NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory
     ) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
-            return userDetails.getUser().getUserId();
-        }
-
-        throw new UnauthorizedException("User is not authenticated");
+        return springSecurityUserProvider.getCurrentUserId();
     }
 }
