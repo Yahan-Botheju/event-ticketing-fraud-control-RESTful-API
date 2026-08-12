@@ -57,9 +57,6 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     @Transactional
     public Ticket save(Ticket ticket){
-        if (jpaTicketRepository.existsById(ticket.getTicketId())){
-            throw new ConflictException("Ticket already exists");
-        }
         TicketEntity ticketEntity = ticketPersistenceMapper.toEntity(ticket);
         TicketEntity savedTicket =  jpaTicketRepository.save(ticketEntity);
 

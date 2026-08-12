@@ -1,7 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketAlreadyUsedException;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketTransferNotAllowedExecption;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketTransferNotAllowedException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +45,7 @@ public class Ticket {
     //transfer ownership
     public void transferOwnerShip(Long newOwnerId) {
         if(this.ticketStatus != TicketStatus.PURCHASED) {
-            throw new TicketTransferNotAllowedExecption("Only purchased ticket and unused ticket can be transferred.");
+            throw new TicketTransferNotAllowedException("Only purchased ticket and unused ticket can be transferred.");
         }
 
         //set new owner id and set ticket status

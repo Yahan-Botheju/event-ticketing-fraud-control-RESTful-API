@@ -55,14 +55,14 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
         String newAccessToken = jwtTokenProvider.generateAccessToken(
                 existingUser.getUserId(),
                 existingUser.getEmail(),
-                existingUser.getRole().toString()
+                existingUser.getRole().name()
                 );
 
         //new refresh_token
         String newRefreshToken = jwtTokenProvider.generateRefreshToken(
                 existingUser.getUserId(),
                 existingUser.getEmail(),
-                existingUser.getRole().toString()
+                existingUser.getRole().name()
         );
 
         //override from new refresh_token (TOKEN ROTATION) override new token
@@ -72,12 +72,12 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
                 jwtTokenProvider.getRefreshTokenExpiry()
         );
 
-        return new  AuthenticatedUserResult(
+        return new AuthenticatedUserResult(
                 newAccessToken,
                 newRefreshToken,
                 existingUser.getUserId(),
                 existingUser.getEmail(),
-                existingUser.getRole().toString()
+                existingUser.getRole().name()
         );
     }
 }
