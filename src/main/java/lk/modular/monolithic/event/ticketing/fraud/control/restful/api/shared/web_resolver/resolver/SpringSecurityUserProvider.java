@@ -3,5 +3,5 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.w
 public interface SpringSecurityUserProvider {
 
     //get authenticated current userId
-    String getCurrentUserId();
+    Long getCurrentUserId();
 }
