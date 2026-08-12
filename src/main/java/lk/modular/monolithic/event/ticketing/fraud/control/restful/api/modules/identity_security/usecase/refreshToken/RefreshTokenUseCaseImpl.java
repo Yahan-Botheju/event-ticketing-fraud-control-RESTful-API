@@ -5,7 +5,6 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.UserRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.InvalidTicketException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ResourceNotFoundException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.UnauthorizedException;
 
@@ -32,7 +31,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
     public AuthenticatedUserResult execute(String refreshToken) {
         //check token valid or not
         if(!jwtTokenProvider.validateToken(refreshToken)) {
-            throw new InvalidTicketException("Invalid or expired refresh token..!!");
+            throw new UnauthorizedException("Invalid or expired refresh token..!!");
         }
         //get email from token
         String email = jwtTokenProvider.getEmailFromToken(refreshToken);
@@ -47,7 +46,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
 
         //check tokens are same
         if(!activateToken.equals(refreshToken)) {
-            throw new InvalidTicketException("Token mismatch or revoked..!!");
+            throw new UnauthorizedException("Token mismatch or revoked..!!");
         }
 
         /* __GENERATE_NEW_ACCESS_TOKEN__ */
@@ -66,7 +65,7 @@ public class RefreshTokenUseCaseImpl implements RefreshTokenUseCase {
                 existingUser.getRole().toString()
         );
 
-        //override from new refresh_token
+        //override from new refresh_token (TOKEN ROTATION) override new token
         redisTokenRepository.saveRefreshToken(
                 existingUser.getUserId(),
                 newRefreshToken,
