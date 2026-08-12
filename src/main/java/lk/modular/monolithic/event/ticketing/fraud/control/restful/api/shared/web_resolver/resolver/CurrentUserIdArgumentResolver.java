@@ -14,6 +14,16 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class CurrentUserIdArgumentResolver implements HandlerMethodArgumentResolver {
 
+    //inject required dependencies
+    private final SpringSecurityUserProvider springSecurityUserProvider;
+
+    public CurrentUserIdArgumentResolver(
+            SpringSecurityUserProvider springSecurityUserProvider
+    ) {
+        this.springSecurityUserProvider = springSecurityUserProvider;
+    }
+
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(CurrentUserId.class);
