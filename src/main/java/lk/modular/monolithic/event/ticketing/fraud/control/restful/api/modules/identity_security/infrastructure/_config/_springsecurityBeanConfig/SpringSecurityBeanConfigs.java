@@ -34,8 +34,10 @@ public class SpringSecurityBeanConfigs {
 
     //resolver
     @Bean
-    public CurrentUserIdArgumentResolver currentUserIdArgumentResolver(){
-        return new CurrentUserIdArgumentResolver();
+    public CurrentUserIdArgumentResolver currentUserIdArgumentResolver(
+            SpringSecurityUserProvider springSecurityUserProvider
+    ){
+        return new CurrentUserIdArgumentResolver(springSecurityUserProvider);
     }
 
 
