@@ -8,15 +8,12 @@ public class UserValidationClientRepositoryImpl implements UserValidationClientR
 
     //inject required dependencies
     private final JpaUserRepository jpaUserRepository;
-    private final UserPersistenceMapper userPersistenceMapper;
 
 
     public UserValidationClientRepositoryImpl(
-            JpaUserRepository jpaUserRepository,
-            UserPersistenceMapper userPersistenceMapper
+            JpaUserRepository jpaUserRepository
     ) {
         this.jpaUserRepository = jpaUserRepository;
-        this.userPersistenceMapper = userPersistenceMapper;
     }
 
     //check user existence for TICKETING_ENGINE module
