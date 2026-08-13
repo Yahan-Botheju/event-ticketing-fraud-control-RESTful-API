@@ -1,4 +1,4 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.records;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.ticket_log_records;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

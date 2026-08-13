@@ -3,6 +3,8 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.TicketStatus;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.ticket_log_records.TicketPurchasedEvent;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventPublisher;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
@@ -18,6 +20,7 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
     private final EventRepository eventRepository;
     private final TicketRepository ticketRepository;
     private final RedisLockService redisLockService;
+    private final EventPublisher eventPublisher;
     private final String eventLockPrefix;
     private final long redisLockExpirationSeconds;
     private final String ticketCodePrefix;
@@ -26,6 +29,7 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
             EventRepository eventRepository,
             TicketRepository ticketRepository,
             RedisLockService redisLockService,
+            EventPublisher eventPublisher,
             String eventLockPrefix,
             long redisLockExpirationSeconds,
             String ticketCodePrefix
@@ -34,6 +38,7 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
         this.eventRepository = eventRepository;
         this.ticketRepository = ticketRepository;
         this.redisLockService = redisLockService;
+        this.eventPublisher = eventPublisher;
         this.eventLockPrefix = eventLockPrefix;
         this.redisLockExpirationSeconds = redisLockExpirationSeconds;
         this.ticketCodePrefix = ticketCodePrefix;
@@ -80,7 +85,19 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
                     null
             );
 
-            return  ticketRepository.save(ticket);
+            //save ticket
+            Ticket savedTicket = ticketRepository.save(ticket);
+
+            //publish the event
+             eventPublisher.publish(new TicketPurchasedEvent(
+                    savedTicket.getTicketId(),
+                    savedTicket.getOwnerId(),
+                    savedTicket.getEventId(),
+                    savedTicket.getTicketPrice()
+            ));
+
+
+            return savedTicket;
 
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
