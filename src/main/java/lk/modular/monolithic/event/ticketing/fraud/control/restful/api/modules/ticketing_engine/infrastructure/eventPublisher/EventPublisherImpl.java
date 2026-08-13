@@ -13,4 +13,10 @@ public class EventPublisherImpl implements EventPublisher {
     ) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
+
+    //event publisher for ticket selling
+    @Override
+    public void publish(Object event) {
+        applicationEventPublisher.publishEvent(event);
+    }
 }
