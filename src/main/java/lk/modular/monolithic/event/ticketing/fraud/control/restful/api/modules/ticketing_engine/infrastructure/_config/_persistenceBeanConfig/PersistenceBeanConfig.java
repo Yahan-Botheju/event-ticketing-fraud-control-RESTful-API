@@ -3,7 +3,9 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventPublisher;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketTransactionLogRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.eventPublisher.EventPublisherImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.eventPublisher.listeners.TicketLogEventListener;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.EventRepositoryImpl;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.jpa.JpaEventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.persistenceMapper.EventPersistenceMapper;
@@ -43,5 +45,13 @@ public class PersistenceBeanConfig {
         ApplicationEventPublisher applicationEventPublisher
     ){
         return new EventPublisherImpl(applicationEventPublisher);
+    }
+
+    //ticket log event listener
+    @Bean
+    public TicketLogEventListener  ticketLogEventListener(
+            TicketTransactionLogRepository ticketTransactionLogRepository
+    ){
+        return new TicketLogEventListener(ticketTransactionLogRepository);
     }
 }
