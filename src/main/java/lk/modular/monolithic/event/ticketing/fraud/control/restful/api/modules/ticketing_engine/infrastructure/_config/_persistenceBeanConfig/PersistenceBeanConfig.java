@@ -12,6 +12,9 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket.TicketRepositoryImpl;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket.jpa.JpaTicketRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket.persistenceMapper.TicketPersistenceMapper;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket_log.TicketTransactionLogRepositoryImpl;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket_log.jpa.JpaTicketTransactionLogRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.ticket_log.persistenceMapper.TicketTransactionLogPersistenceMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,5 +56,14 @@ public class PersistenceBeanConfig {
             TicketTransactionLogRepository ticketTransactionLogRepository
     ){
         return new TicketLogEventListener(ticketTransactionLogRepository);
+    }
+
+    //ticket transaction log persistence impl
+    @Bean
+    public TicketTransactionLogRepository ticketTransactionLogRepository(
+            JpaTicketTransactionLogRepository jpaTicketTransactionLogRepository,
+            TicketTransactionLogPersistenceMapper ticketTransactionLogPersistenceMapper
+    ){
+        return new TicketTransactionLogRepositoryImpl(jpaTicketTransactionLogRepository, ticketTransactionLogPersistenceMapper);
     }
 }
