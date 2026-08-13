@@ -20,7 +20,6 @@ public class TicketLogEventListener {
     @EventListener
     public void handleTicketPurchasedEvent(TicketPurchasedEvent ticketPurchasedEvent) {
         TicketTransactionLog transactionLog = new TicketTransactionLog(
-                null,
                 ticketPurchasedEvent.ticketId(),
                 ticketPurchasedEvent.userId(),
                 ticketPurchasedEvent.eventId(),
