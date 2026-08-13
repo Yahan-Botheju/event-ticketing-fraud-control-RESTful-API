@@ -5,5 +5,6 @@ public enum TicketStatus {
     USED,
     CANCELLED,
     REFUNDED,
-    TRANSFERRED
+    TRANSFERRED,
+    PURCHASED_SUCCESSFULLY,
 }
