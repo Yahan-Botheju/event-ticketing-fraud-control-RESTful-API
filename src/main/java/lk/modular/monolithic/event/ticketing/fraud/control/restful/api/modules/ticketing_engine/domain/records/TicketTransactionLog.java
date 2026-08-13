@@ -9,12 +9,29 @@ public record TicketTransactionLog(
         String transactionLogId,
         Long ticketId,
         Long userId,
+        Long eventId,
         BigDecimal ticketPrice,
         LocalDateTime timestamp,
         TicketStatus ticketStatus
 ) {
-    public TicketTransactionLog( Long ticketId, Long userId, BigDecimal ticketPrice, LocalDateTime timestamp, TicketStatus ticketStatus) {
-        this(null, ticketId, userId, ticketPrice, timestamp, ticketStatus);
+    public TicketTransactionLog(
+            Long ticketId,
+            Long userId,
+            Long eventId,
+            BigDecimal ticketPrice,
+            LocalDateTime timestamp,
+            TicketStatus ticketStatus
+    ) {
+        this(
+                null,
+                ticketId,
+                userId,
+                eventId,
+                ticketPrice,
+                timestamp,
+                ticketStatus
+        );
     }
+
 }
 
