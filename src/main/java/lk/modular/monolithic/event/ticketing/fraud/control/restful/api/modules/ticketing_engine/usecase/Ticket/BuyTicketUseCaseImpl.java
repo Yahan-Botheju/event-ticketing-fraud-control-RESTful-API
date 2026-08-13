@@ -3,6 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.TicketStatus;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.records.TicketPurchasedEvent;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventPublisher;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
@@ -84,7 +85,19 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
                     null
             );
 
-            return  ticketRepository.save(ticket);
+            //save ticket
+            Ticket savedTicket = ticketRepository.save(ticket);
+
+            //publish the event
+             eventPublisher.publish(new TicketPurchasedEvent(
+                    savedTicket.getTicketId(),
+                    savedTicket.getOwnerId(),
+                    savedTicket.getEventId(),
+                    savedTicket.getTicketPrice()
+            ));
+
+
+            return savedTicket;
 
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
