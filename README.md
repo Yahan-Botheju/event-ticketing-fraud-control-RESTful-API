@@ -780,7 +780,213 @@ The response abstraction keeps successful and error responses consistent across 
 ### 📁 Project Structure
 
 ```
-
+api
+├── 📁 modules
+│   ├── 📁 identity_security                                 @Identity & Security Bounded Context
+│   │   ├── 📁 domain                                        @Core Business Logic & Enterprise Rules
+│   │   │   ├── 📁 models                                    @Pure Domain Entities & Value Objects
+│   │   │   │   ├── Role.java                                #User Role Domain Model
+│   │   │   │   └── User.java                                #Identity User Domain Model
+│   │   │   ├── 📁 records                                   @Immutable Domain Records / Transfer Objects
+│   │   │   │   ├── AuthenticatedUser.java                   #Authenticated User Record
+│   │   │   │   └── AuthenticatedUserResult.java             #Authentication Result Contract
+│   │   │   └── 📁 repositories                              @Outbound Port Interfaces (Abstractions)
+│   │   │       ├── IdentityProvider.java                    #Identity Provider Abstraction
+│   │   │       ├── JwtTokenProvider.java                    #Token Management Interface
+│   │   │       ├── RedisTokenRepository.java                #Token Cache Storage Interface
+│   │   │       └── UserRepository.java                      #User Persistence Operations Interface
+│   │   │
+│   │   ├── 📁 usecase                                       @Application Specific Business Rules
+│   │   │   ├── 📁 login                                     @Login Inbound Port & Orchestration
+│   │   │   │   ├── LoginUserUseCase.java                    #Feature Interface
+│   │   │   │   └── LoginUserUseCaseImpl.java                #Authentication Flow Logic
+│   │   │   ├── 📁 logout                                    @Logout Inbound Port & Orchestration
+│   │   │   │   ├── LogoutUserUseCase.java                   #Feature Interface
+│   │   │   │   └── LogoutUserUseCaseImpl.java               #Session Invalidation Logic
+│   │   │   ├── 📁 refreshToken                              @Token Refresh Inbound Port & Orchestration
+│   │   │   │   ├── RefreshTokenUseCase.java                 #Feature Interface
+│   │   │   │   └── RefreshTokenUseCaseImpl.java             #Token Renewal Logic
+│   │   │   └── 📁 register                                  @User Registration Inbound Port
+│   │   │       ├── RegisterUserUseCase.java                 #Feature Interface
+│   │   │       └── RegisterUserUseCaseImpl.java             #Registration Flow Logic
+│   │   │
+│   │   ├── 📁 infrastructure                                @External Frameworks, Drivers & Adapters
+│   │   │   ├── 📁 _config                                   @Spring Framework Bean Configuration
+│   │   │   │   ├── 📁 _jwtBeanConfig
+│   │   │   │   │   └── JwtBeanConfigs.java                  #JWT Service Beans Setup
+│   │   │   │   ├── 📁 _persistenceBeanConfig
+│   │   │   │   │   └── PersistenceBeanConfigs.java          #Security Persistence Beans Setup
+│   │   │   │   ├── 📁 _springsecurityBeanConfig
+│   │   │   │   │   └── SpringSecurityBeanConfigs.java       #Spring Security Wireup
+│   │   │   │   └── 📁 _usecaseBeanConfig
+│   │   │   │       └── UseCaseBeanConfig.java               #Auth Use Case Injection Config
+│   │   │   ├── 📁 _redis                                    @Redis Cache Adapter Implementation
+│   │   │   │   └── RedisTokenRepositoryImpl.java            #Concrete Redis Token Store Adapter
+│   │   │   ├── 📁 _security                                 @Spring Security Framework Integration
+│   │   │   │   ├── 📁 _config
+│   │   │   │   │   ├── ApplicationConfig.java               #Security Infrastructure Components
+│   │   │   │   │   ├── JwtSecretKeyConfig.java              #Cryptographic Key Configuration
+│   │   │   │   │   └── SecurityConfig.java                  #SecurityFilterChain & Interceptors
+│   │   │   │   ├── 📁 _user_wrapper
+│   │   │   │   │   ├── CustomUserDetails.java               #Domain User -> Spring UserDetails Adapter
+│   │   │   │   │   └── CustomUserDetailsService.java        #User Loading Implementation
+│   │   │   │   └── 📁 filter
+│   │   │   │       └── JwtAuthenticationFilter.java         #HTTP Request Token Interceptor
+│   │   │   ├── 📁 IdentityProvider
+│   │   │   │   └── IdentityProviderImpl.java                #Concrete Identity Provider Adapter
+│   │   │   ├── 📁 resolver_user_provider
+│   │   │   │   └── SpringSecurityUserProviderImpl.java      #Current User Resolution Adapter
+│   │   │   ├── JwtTokenProviderImpl.java                    #Concrete JWT Provider (jjwt/Nimbus)
+│   │   │   └── 📁 persistence                               @Relational Database Persistence Layer
+│   │   │       └── 📁 user
+│   │   │           ├── 📁 entities
+│   │   │           │   └── UserEntity.java                  #JPA @Entity Definition
+│   │   │           ├── 📁 jpa
+│   │   │           │   └── JpaUserRepository.java           #Spring Data JPA Repository
+│   │   │           ├── 📁 persistenceMapper
+│   │   │           │   └── UserPersistenceMapper.java       #Domain Model <-> JPA Entity Mapper
+│   │   │           ├── 📁 shared_domain_usage
+│   │   │           │   └── UserValidationClientRepositoryImpl.java     #Shared User Context Adapter
+│   │   │           └── UserRepositoryImpl.java               #Adapter: Domain Repo -> JPA Repo
+│   │   │
+│   │   └── 📁 web                                            @Inbound HTTP Delivery Layer
+│   │       ├── 📁 controllers
+│   │       │   └── AuthController.java                       #Auth REST Controller (@RestController)
+│   │       ├── 📁 DTOs                                       #Web Request / Response Models
+│   │       │   ├── AuthResponseDTO.java
+│   │       │   ├── LoginRequestDTO.java
+│   │       │   ├── RefreshTokenRequestDTO.java
+│   │       │   └── RegisterRequestDTO.java
+│   │       └── 📁 webMappers                                 @Web DTO <-> Domain Mapping
+│   │           └── AuthWebMapper.java
+│   │
+│   └── 📁 ticketing_engine                                   @Ticketing Engine Bounded Context
+│       ├── 📁 domain                                         @Core Business Logic & Domain Models
+│       │   ├── 📁 domain_exceptions                          @Domain Specific Business Exceptions
+│       │   │   ├── DomainException.java                      #Base Domain Exception
+│       │   │   ├── TicketAlreadyUsedException.java
+│       │   │   ├── TicketReservedException.java
+│       │   │   └── TicketTransferNotAllowedException.java
+│       │   ├── 📁 models                                     @Pure Business Entities & Enums
+│       │   │   ├── Event.java                                #Event Aggregate Root
+│       │   │   ├── Ticket.java                               #Ticket Entity
+│       │   │   └── TicketStatus.java                         #Ticket Lifecycle States
+│       │   ├── 📁 repositories                               @Outbound Port Interfaces
+│       │   │   ├── EventPublisher.java                       #Event Dispatcher Interface
+│       │   │   ├── EventRepository.java                      #Event Persistence Contract
+│       │   │   ├── RedisLockService.java                     #Distributed Locking Contract
+│       │   │   ├── TicketRepository.java                     #Ticket Persistence Contract
+│       │   │   └── TicketTransactionLogRepository.java       #Audit Log Repository Contract
+│       │   └── 📁 ticket_log_records                         @Domain Events & Audit Logs
+│       │       ├── TicketPurchasedEvent.java                 #Domain Event
+│       │       └── TicketTransactionLog.java                 #Transaction Record Value Object
+│       │
+│       ├── 📁 usecase                                        @Application Specific Use Cases
+│       │   ├── 📁 event                                      @Event Management Orchestration
+│       │   │   ├── CreateEventUseCase.java
+│       │   │   ├── CreateEventUseCaseImpl.java
+│       │   │   ├── EventByIdUseCase.java
+│       │   │   ├── EventByIdUseCaseImpl.java
+│       │   │   ├── GetAllEventsUseCase.java
+│       │   │   └── GetAllEventsUseCaseImpl.java
+│       │   └── 📁 Ticket                                     @Ticket Operations Orchestration
+│       │       ├── BuyTicketUseCase.java                     #Purchase Ticket Flow
+│       │       ├── BuyTicketUseCaseImpl.java
+│       │       ├── GetMyTicketsUseCase.java                  #Fetch User Tickets Flow
+│       │       ├── GetMyTicketsUseCaseImpl.java
+│       │       ├── ScanTicketUseCase.java                    #Ticket Validation Flow
+│       │       ├── ScanTicketUseCaseImpl.java
+│       │       ├── TransferTicketUseCase.java                #Ticket Ownership Transfer
+│       │       └── TransferTicketUseCaseImpl.java
+│       │
+│       ├── 📁 infrastructure                                 @Frameworks, Persistence & External Drivers
+│       │   ├── 📁 _config                                    @Spring Bean Wiring
+│       │   │   ├── 📁 _persistenceBeanConfig
+│       │   │   │   └── PersistenceBeanConfig.java
+│       │   │   ├── 📁 _redisBeanConfig
+│       │   │   │   └── RedisBeanConfigs.java
+│       │   │   └── 📁 _usecaseBeanConfig
+│       │   │       └── UseCaseBeanConfigs.java
+│       │   ├── 📁 eventPublisher                             @Event Handling Adapters
+│       │   │   ├── 📁 listeners
+│       │   │   │   └── TicketLogEventListener.java           #Async Event Listener
+│       │   │   └── EventPublisherImpl.java                   #Spring/Messaging Event Publisher
+│       │   ├── 📁 lock                                       @Concurrency Control Infrastructure
+│       │   │   └── RedisLockServiceImpl.java                 #Distributed Locking (Redisson/Redis)
+│       │   └── 📁 persistence                                @Relational Database Persistence Layer
+│       │       ├── 📁 event
+│       │       │   ├── 📁 entities
+│       │       │   │   └── EventEntity.java                  #JPA Event Entity
+│       │       │   ├── 📁 jpa
+│       │       │   │   └── JpaEventRepository.java           #Spring Data JPA Interface
+│       │       │   ├── 📁 persistenceMapper
+│       │       │   │   └── EventPersistenceMapper.java
+│       │       │   └── EventRepositoryImpl.java              #Adapter Implementation
+│       │       ├── 📁 ticket
+│       │       │   ├── 📁 entities
+│       │       │   │   └── TicketEntity.java                 #JPA Ticket Entity
+│       │       │   ├── 📁 jpa
+│       │       │   │   └── JpaTicketRepository.java          #Spring Data JPA Interface
+│       │       │   ├── 📁 persistenceMapper
+│       │       │   │   └── TicketPersistenceMapper.java
+│       │       │   └── TicketRepositoryImpl.java             #Adapter Implementation
+│       │       └── 📁 ticket_log
+│       │           ├── 📁 entities
+│       │           │   └── TicketTransactionLogEntity.java   #JPA Audit Log Entity
+│       │           ├── 📁 jpa
+│       │           │   └── JpaTicketTransactionLogRepository.java
+│       │           ├── 📁 persistenceMapper
+│       │           │   └── TicketTransactionLogPersistenceMapper.java
+│       │           └── TicketTransactionLogRepositoryImpl.java
+│       │
+│       └── 📁 web                                            @Inbound HTTP Delivery Layer
+│           ├── 📁 event                                      @Event Management HTTP Endpoints
+│           │   ├── 📁 controllers
+│           │   │   └── EventController.java
+│           │   ├── 📁 DTOs
+│           │   │   ├── CreateEventRequestDTO.java
+│           │   │   └── EventResponseDTO.java
+│           │   └── 📁 webMappers
+│           │       └── EventWebMapper.java
+│           └── 📁 ticket                                     @Ticket Operations HTTP Endpoints
+│               ├── 📁 controllers
+│               │   └── TicketController.java
+│               ├── 📁 DTOs
+│               │   ├── TicketResponseDTO.java
+│               │   └── TransferTicketRequestDTO.java
+│               └── 📁 webMappers
+│                   └── TicketWebMapper.java
+│
+├── 📁 shared                                                 @Shared Core Kernel & Utilities
+│   ├── 📁 error_handling                                     @Cross-Cutting Exception Handling
+│   │   ├── 📁 DTOs
+│   │   │   ├── ApiResponse.java                              #Standard Unified API Response
+│   │   │   └── ErrorDetails.java                             #Standard Error Payload
+│   │   └── 📁 exception                                      @Global Infrastructure Exceptions
+│   │       ├── BadRequestException.java
+│   │       ├── ConflictException.java
+│   │       ├── ForbiddenException.java
+│   │       ├── GlobalExceptionHandler.java                   #@ControllerAdvice Exception Handler
+│   │       ├── InvalidTicketException.java
+│   │       ├── ResourceNotFoundException.java
+│   │       └── UnauthorizedException.java
+│   ├── 📁 redis                                              @Global Redis Configuration
+│   │   └── 📁 config
+│   │       ├── _JacksonConfig.java                           #Redis Serializer Configuration
+│   │       └── RedisConfig.java                              #Redis Connection Factory Setup
+│   ├── 📁 shared_domain                                      @Shared Domain Protocols Across Modules
+│   │   └── 📁 SharedRepositories
+│   │       └── UserValidationClientRepository.java           #Cross-Module Port Interface
+│   └── 📁 web_resolver                                       @Custom Web MVC Argument Resolvers
+│       ├── 📁 annotation
+│       │   └── CurrentUserId.java                            #Custom Injectable Parameter Annotation
+│       ├── 📁 resolver
+│       │   ├── CurrentUserIdArgumentResolver.java            #Resolves Authenticated User ID
+│       │   └── SpringSecurityUserProvider.java               #Security Context Accessor
+│       └── 📁 webMvcConfig
+│           └── WebMvcConfig.java                             #Web MVC Configuration Setup
+│
+└── Application.java                                          @Spring Boot Main Entrypoint
 ```
 ---
 
