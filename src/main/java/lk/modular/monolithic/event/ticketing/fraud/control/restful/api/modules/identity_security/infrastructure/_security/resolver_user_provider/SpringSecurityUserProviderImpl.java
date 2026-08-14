@@ -1,6 +1,5 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security.resolver_user_provider;
 
-
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.infrastructure._security._user_wrapper.CustomUserDetails;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.UnauthorizedException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.resolver.SpringSecurityUserProvider;
