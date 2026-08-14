@@ -91,9 +91,9 @@ The main architectural objective is to keep **business logic independent from in
 
 ---
 
-# ✨ Key Features
+## ✨ Key Features
 
-## 🔐 Authentication and Security
+### 🔐 Authentication and Security
 
 - User registration
 - Username/password authentication
@@ -111,7 +111,7 @@ The main architectural objective is to keep **business logic independent from in
 - Role-based authentication information
 - Current authenticated-user resolution
 
-## 🎫 Event and Ticket Management
+### 🎫 Event and Ticket Management
 
 - Event creation
 - Event retrieval
@@ -122,7 +122,7 @@ The main architectural objective is to keep **business logic independent from in
 - Current-user ticket retrieval
 - Ticket lifecycle management
 
-## 🔒 Concurrency and Fraud Control
+### 🔒 Concurrency and Fraud Control
 
 - Redis distributed locks
 - Event-level purchase locking
@@ -133,7 +133,7 @@ The main architectural objective is to keep **business logic independent from in
 - Ownership validation
 - Transaction logging
 - Application event-based transaction processing
-
+---
 ## 🏛️ Architecture Overview
 
 The system is designed as a **Modular Monolith** to enforce high cohesion and loose coupling across domain boundaries. The core business logic is split into isolated modules:
@@ -189,7 +189,7 @@ The system is designed as a **Modular Monolith** to enforce high cohesion and lo
 
 ---
 
-# 🧩 Modular Monolith
+## 🧩 Modular Monolith
 
 The project is intentionally structured as a **Modular Monolith** instead of immediately splitting the system into microservices.
 
@@ -240,7 +240,7 @@ The `identity_security` module is responsible for authentication and user securi
 * Spring Security integration
 * Logout
 
-The authentication API exposes the following operations:
+- The authentication API exposes the following operations:
 
 | Method | Endpoint                     | Description                         |
 | ------ | ---------------------------- | ----------------------------------- |
@@ -249,7 +249,7 @@ The authentication API exposes the following operations:
 | `POST` | `/api/v1/auth/refresh-token` | Generate new authentication tokens  |
 | `POST` | `/api/v1/auth/logout`        | Invalidate the current user session |
 
-These endpoints are implemented by the `AuthController`.
+ - These endpoints are implemented by the `AuthController`.
 
 ---
 
@@ -284,7 +284,7 @@ Role
 
 ## ♻️ Redis Refresh Token Whitelisting
 
-One of the key security features of this system is server-side refresh-token whitelisting using Redis.
+- One of the key security features of this system is server-side refresh-token whitelisting using Redis.
 The system does not rely exclusively on JWT signature validation for refresh-token authentication.
 Instead, refresh-token validation uses two levels of verification:
 
@@ -694,7 +694,6 @@ This creates a clean separation between the ticket purchase operation and transa
 ## 🛡️ Fraud-Control-Oriented Design
 
 The system does not rely on a single "fraud detection" algorithm.
-
 Instead, fraud-control is approached through **transaction integrity and abuse prevention mechanisms**, including:
 
 ### 1. Concurrent Purchase Protection
@@ -1012,9 +1011,9 @@ api
 
 ---
 
-# 🔄 Core Business Flows
+## 🔄 Core Business Flows
 
-## Authentication Flow
+### Authentication Flow
 
 ```text
 Register
@@ -1041,7 +1040,7 @@ Generate Access + Refresh Tokens
 
 ---
 
-## Ticket Purchase Flow
+### Ticket Purchase Flow
 
 ```text
 POST /api/v1/tickets/buy/{eventId}
@@ -1084,7 +1083,7 @@ The implementation explicitly acquires a Redis lock before checking availability
 
 ---
 
-## Ticket Scan Flow
+### Ticket Scan Flow
 
 ```text
 Ticket Code
@@ -1116,7 +1115,7 @@ Validate Ticket State
 
 ---
 
-## Ticket Transfer Flow
+### Ticket Transfer Flow
 
 ```text
 Current User
@@ -1410,7 +1409,7 @@ This project is primarily focused on demonstrating advanced backend architecture
 
 ## 👨‍💻 Author
 
-**Yahan Ravinga**
+**Yahan Botheju**
 
 Programming Enthusiast | Java & Spring Backend Developer
 
