@@ -1,7 +1,5 @@
 # 🎟️ Event Ticketing & Fraud Control RESTful API
 
-# 🎟️ Event Ticketing & Fraud Control API
-
 A production-ready **Modular Monolithic RESTful API** built with **Java 17** and **Spring Boot 3**, engineered around **Domain-Driven Design (DDD)** and **Clean Architecture** principles. The system provides secure ticket issuance, transfer mechanics, real-time validation scanning, and race-condition prevention using **Redis Distributed Locks**.
 
 ---
