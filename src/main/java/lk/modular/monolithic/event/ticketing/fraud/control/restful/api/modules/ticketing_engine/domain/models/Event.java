@@ -1,18 +1,12 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.domain_exceptions.TicketReservedException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Getter
 public class Event {
     private Long eventId;
     private String eventTitle;
@@ -24,6 +18,31 @@ public class Event {
     private BigDecimal eventTicketPrice;
     private Long organizerId;
     private LocalDateTime createdAt;
+
+    public Event(
+            Long eventId,
+            String eventTitle,
+            String eventDescription,
+            String eventLocation,
+            LocalDateTime eventDate,
+            Integer eventTotalTickets,
+            Integer eventAvailableTickets,
+            BigDecimal eventTicketPrice,
+            Long organizerId,
+            LocalDateTime createdAt
+    ) {
+        this.eventId = eventId;
+        this.eventTitle = eventTitle;
+        this.eventDescription = eventDescription;
+        this.eventLocation = eventLocation;
+        this.eventDate = eventDate;
+        this.eventTotalTickets = eventTotalTickets;
+        this.eventAvailableTickets = eventAvailableTickets;
+        this.eventTicketPrice = eventTicketPrice;
+        this.organizerId = organizerId;
+        this.createdAt = createdAt;
+    }
+
 
     /* __DOMAIN_BUSINESS_LOGIC__ */
 
