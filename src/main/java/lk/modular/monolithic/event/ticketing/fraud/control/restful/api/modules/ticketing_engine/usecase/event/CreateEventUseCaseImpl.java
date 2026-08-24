@@ -21,7 +21,7 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
 
     //create event
     @Override
-    public Event execute(Event event){
+    public Event execute(Event event, Long organizerId) {
         //check ticket availability
         if(event.getEventTotalTickets() == null || event.getEventTicketPrice().compareTo(BigDecimal.ZERO) <= 0){
             throw new InvalidTicketException("Total tickets must be greater than zero");
@@ -34,7 +34,7 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
                 event.getEventDate(),
                 event.getEventTotalTickets(),
                 event.getEventTicketPrice(),
-                event.getOrganizerId()
+                organizerId
         );
 
        return eventRepository.save(newEvent);
