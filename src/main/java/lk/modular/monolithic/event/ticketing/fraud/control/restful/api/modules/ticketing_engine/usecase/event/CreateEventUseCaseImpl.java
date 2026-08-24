@@ -27,8 +27,16 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
             throw new InvalidTicketException("Total tickets must be greater than zero");
         }
         //set event available tickets to total tickets
-        event.setEventAvailableTickets(event.getEventTotalTickets());
+        Event newEvent = Event.createNewEvent(
+                event.getEventTitle(),
+                event.getEventDescription(),
+                event.getEventLocation(),
+                event.getEventDate(),
+                event.getEventTotalTickets(),
+                event.getEventTicketPrice(),
+                event.getOrganizerId()
+        );
 
-       return eventRepository.save(event);
+       return eventRepository.save(newEvent);
     }
 }
