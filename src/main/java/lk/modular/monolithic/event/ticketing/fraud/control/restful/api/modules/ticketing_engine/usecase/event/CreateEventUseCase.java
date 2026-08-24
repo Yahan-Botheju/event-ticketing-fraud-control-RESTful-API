@@ -5,5 +5,5 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 public interface CreateEventUseCase {
 
     //create event
-    Event execute(Event event);
+    Event execute(Event event, Long organizerId);
 }
