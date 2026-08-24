@@ -2,6 +2,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TicketResponseDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.changed__;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
