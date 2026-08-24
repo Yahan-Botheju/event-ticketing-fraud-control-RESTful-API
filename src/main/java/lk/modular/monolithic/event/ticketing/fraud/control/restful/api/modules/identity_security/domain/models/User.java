@@ -21,4 +21,12 @@ public class User {
        this.role = role;
        this.createdAt = createdAt;
     }
+
+    /* __FACTORY_METHOD__ */
+
+    //create factor method for new user registration
+    public static User registerNewUser(String fullName, String email, String password, Role role) {
+        Role finalRole = (role != null) ? role : Role.ATTENDEE;
+        return new User(null, fullName, email, password, finalRole, LocalDateTime.now());
+    }
 }
