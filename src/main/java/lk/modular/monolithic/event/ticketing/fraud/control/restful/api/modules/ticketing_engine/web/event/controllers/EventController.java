@@ -47,10 +47,8 @@ public class EventController {
 
         //create domain model
         Event toDomainModel = eventWebMapper.toDomainModel(createEventRequestDTO);
-        //set organizer id to event
-        toDomainModel.setOrganizerId(organizerId);
         //set to usecase for create event
-        Event setToUseCase = createEventUseCase.execute(toDomainModel);
+        Event setToUseCase = createEventUseCase.execute(toDomainModel, organizerId);
         //create response
         EventResponseDTO responseDTO = eventWebMapper.toResponseDTO(setToUseCase);
 
