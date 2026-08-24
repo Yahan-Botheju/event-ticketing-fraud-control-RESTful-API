@@ -37,12 +37,11 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         Role userRole = user.getRole() != null ? user.getRole() : Role.ATTENDEE;
 
         //create user object with required details
-        User newUser = User.builder()
-                .fullName(user.getFullName())
-                .email(user.getEmail())
-                .password(encodedPassword)
-                .role(userRole)
-                .build();
+        User newUser = User.registerNewUser(
+                user.getFullName(),
+                user.getEmail(),
+                encodedPassword,
+                user.getRole());
 
         //save user
         userRepository.registerUser(newUser);
