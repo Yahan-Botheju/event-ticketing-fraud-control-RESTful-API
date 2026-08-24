@@ -3,11 +3,11 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import jakarta.validation.Valid;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.EventByIdUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.GetAllEventsUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.EventResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.CreateEventRequestDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.EventResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.webMappers.EventWebMapper;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -47,10 +47,8 @@ public class EventController {
 
         //create domain model
         Event toDomainModel = eventWebMapper.toDomainModel(createEventRequestDTO);
-        //set organizer id to event
-        toDomainModel.setOrganizerId(organizerId);
         //set to usecase for create event
-        Event setToUseCase = createEventUseCase.execute(toDomainModel);
+        Event setToUseCase = createEventUseCase.execute(toDomainModel, organizerId);
         //create response
         EventResponseDTO responseDTO = eventWebMapper.toResponseDTO(setToUseCase);
 

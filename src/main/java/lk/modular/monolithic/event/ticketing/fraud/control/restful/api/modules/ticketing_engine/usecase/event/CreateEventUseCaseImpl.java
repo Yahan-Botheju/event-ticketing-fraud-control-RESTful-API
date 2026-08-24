@@ -21,14 +21,22 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
 
     //create event
     @Override
-    public Event execute(Event event){
+    public Event execute(Event event, Long organizerId) {
         //check ticket availability
         if(event.getEventTotalTickets() == null || event.getEventTicketPrice().compareTo(BigDecimal.ZERO) <= 0){
             throw new InvalidTicketException("Total tickets must be greater than zero");
         }
         //set event available tickets to total tickets
-        event.setEventAvailableTickets(event.getEventTotalTickets());
+        Event newEvent = Event.createNewEvent(
+                event.getEventTitle(),
+                event.getEventDescription(),
+                event.getEventLocation(),
+                event.getEventDate(),
+                event.getEventTotalTickets(),
+                event.getEventTicketPrice(),
+                organizerId
+        );
 
-       return eventRepository.save(event);
+       return eventRepository.save(newEvent);
     }
 }
