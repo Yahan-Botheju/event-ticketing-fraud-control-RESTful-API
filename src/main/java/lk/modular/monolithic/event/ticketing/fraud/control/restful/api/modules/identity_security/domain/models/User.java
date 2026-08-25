@@ -1,10 +1,9 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models;
 
-import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
+
 public class User {
     private Long userId;
     private String fullName;
@@ -21,6 +20,17 @@ public class User {
        this.role = role;
        this.createdAt = createdAt;
     }
+
+    /* __SETTERS__ */
+
+    public Long getUserId() { return userId; }
+    public String getFullName() { return fullName; }
+    public String getEmail() { return email; }
+    public String getPassword() { return password; }
+    public Role getRole() { return role; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
+
 
     /* __FACTORY_METHOD__ */
 
