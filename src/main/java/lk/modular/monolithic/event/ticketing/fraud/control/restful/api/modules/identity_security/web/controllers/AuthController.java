@@ -1,8 +1,8 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.controllers;
 
 import jakarta.validation.Valid;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase._records.RegisterRequestCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.LoginUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.LogoutUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.RefreshTokenUseCase;
@@ -47,8 +47,8 @@ public class AuthController {
     public ResponseEntity<String> register(
             @Valid @RequestBody RegisterRequestDTO registerRequestDTO
     ){
-        User domainModel = authWebMapper.registerDomainModel(registerRequestDTO);
-        registerUserUseCase.register(domainModel);
+        RegisterRequestCommand toCommand = authWebMapper.registerCommand(registerRequestDTO);
+        registerUserUseCase.register(toCommand);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
