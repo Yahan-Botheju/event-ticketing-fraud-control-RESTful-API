@@ -1,9 +1,10 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase._records.CreateEventRequestCommand;
 
 public interface CreateEventUseCase {
 
     //create event
-    Event execute(Event event, Long organizerId);
+    Event execute(CreateEventRequestCommand requestCommand, Long organizerId);
 }
