@@ -33,6 +33,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         if (registerUserCommand.fullName().isEmpty()
                 || registerUserCommand.email().isEmpty()
                 || registerUserCommand.password().isEmpty()
+                || !registerUserCommand.role().isEmpty()
         ) {
             throw new MethodArgumentNotValidException("Required fields cannot be missing!!");
         }
