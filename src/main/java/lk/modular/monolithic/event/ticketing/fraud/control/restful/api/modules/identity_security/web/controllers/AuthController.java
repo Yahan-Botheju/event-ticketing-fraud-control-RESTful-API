@@ -3,6 +3,8 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import jakarta.validation.Valid;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.LoginUserUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.LogoutUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.RefreshTokenUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.RegisterUserUseCase;
@@ -57,16 +59,15 @@ public class AuthController {
 
     //login endpoint
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(
-            @Valid @RequestBody LoginRequestDTO loginRequestDTO
+    public ResponseEntity<LoginUserResponseDTO> login(
+            @Valid @RequestBody LoginUserRequestDTO loginUserRequestDTO
     ){
-        String username =  loginRequestDTO.getEmail();
-        String password = loginRequestDTO.getPassword();
 
-        AuthenticatedUserResult authenticatedUserResult = loginUserUseCase.login(username, password);
-        AuthResponseDTO toResponseDTO = authWebMapper.toAuthResponseDTO(authenticatedUserResult);
+        LoginUserCommand toCommand = authWebMapper.toLoginUserCommand(loginUserRequestDTO);
+        LoginUserResult toLoginResult = loginUserUseCase.login(toCommand);
+        LoginUserResponseDTO responseDTO = authWebMapper.toLoginUserResponseDTO(toLoginResult);
 
-        return ResponseEntity.ok(toResponseDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     //refresh-token endpoint
