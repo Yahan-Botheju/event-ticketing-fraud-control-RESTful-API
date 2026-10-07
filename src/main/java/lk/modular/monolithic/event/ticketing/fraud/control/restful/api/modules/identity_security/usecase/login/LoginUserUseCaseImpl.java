@@ -1,10 +1,12 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUser;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.IdentityProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.JwtTokenProvider;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.InvalidCredentialsException;
 
 public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
@@ -25,12 +27,19 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
     //login user
     @Override
-    public AuthenticatedUserResult login(
-            String username,
-            String password
-    ) {
+    public LoginUserResult login(LoginUserCommand loginUserCommand) {
+
+        if (loginUserCommand.email().isEmpty()
+                || loginUserCommand.email().isBlank()
+                || loginUserCommand.password().isEmpty()
+                || loginUserCommand.password().isBlank()
+        ) {
+            throw new InvalidCredentialsException("Email and password cannot be missing");
+        }
+
         //authenticate user
-        AuthenticatedUser authenticatedUser  = identityProvider.authenticateUser(username, password);
+        AuthenticatedUser authenticatedUser = identityProvider
+                .authenticateUser(loginUserCommand.email(), loginUserCommand.password());
 
         /* __GENERATE_TOKENS__ */
 
@@ -47,7 +56,6 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
                 authenticatedUser.role()
         );
 
-
         /* __STATEFUL_WHITELISTING__ */
         //save refresh token redis context
         redisTokenRepository.saveRefreshToken(
@@ -57,7 +65,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
 
         );
 
-        return new AuthenticatedUserResult(
+        return new LoginUserResult(
                 accessToken,
                 refreshToken,
                 authenticatedUser.userId(),
@@ -65,4 +73,6 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
                 authenticatedUser.role()
         );
     }
+
+
 }
