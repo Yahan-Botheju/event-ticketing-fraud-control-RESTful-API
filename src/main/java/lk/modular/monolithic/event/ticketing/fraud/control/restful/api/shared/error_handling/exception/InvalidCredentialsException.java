@@ -1,7 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception;
 
-public class InvalidCredenticalException extends RuntimeException {
-    public InvalidCredenticalException(String message) {
+public class InvalidCredentialsException extends RuntimeException {
+    public InvalidCredentialsException(String message) {
         super(message);
     }
 }
