@@ -110,6 +110,15 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
+    //Invalid credential exception(Custom error)
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiResponse<Void>> handleInvalidCredentialsException(
+            InvalidCredentialsException ex,
+            WebRequest request
+    ){
+        return buildResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
+    }
+
     /* __DOMAIN_EXCEPTIONS__ */
 
     @ExceptionHandler(DomainException.class)
