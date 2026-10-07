@@ -2,11 +2,12 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import jakarta.validation.Valid;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase._records.RegisterRequestCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.LoginUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.LogoutUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.RefreshTokenUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.RegisterUserUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.*;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.webMappers.AuthWebMapper;
@@ -44,13 +45,14 @@ public class AuthController {
 
     //register endpoint
     @PostMapping("/register")
-    public ResponseEntity<String> register(
-            @Valid @RequestBody RegisterRequestDTO registerRequestDTO
+    public ResponseEntity<RegisterUserResponseDTO> register(
+            @Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO
     ){
-        RegisterRequestCommand toCommand = authWebMapper.registerCommand(registerRequestDTO);
-        registerUserUseCase.register(toCommand);
+        RegisterUserCommand toCommand = authWebMapper.toRegisterUserCommand(registerUserRequestDTO);
+        RegisterUserResult toRegisterResult = registerUserUseCase.register(toCommand);
+        RegisterUserResponseDTO responseDTO = authWebMapper.toRegisterUserResponseDTO(toRegisterResult);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
     //login endpoint
