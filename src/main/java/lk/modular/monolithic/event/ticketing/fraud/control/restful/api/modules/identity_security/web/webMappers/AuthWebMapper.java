@@ -2,11 +2,11 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserResult;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.AuthResponseDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.RegisterUserRequestDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.RegisterUserResponseDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.*;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -19,6 +19,15 @@ public interface AuthWebMapper {
 
     //domain model to response
     RegisterUserResponseDTO toRegisterUserResponseDTO(RegisterUserResult registerUserResult);
+
+
+    /* __LOGIN__ */
+
+    //request to command
+    LoginUserCommand toLoginUserCommand(LoginUserRequestDTO loginUserRequestDTO);
+
+    //domain model to response
+    LoginUserResponseDTO toLoginUserResponseDTO(LoginUserResult loginUserResult);
 
 
     /* domain model to responseDTO */
