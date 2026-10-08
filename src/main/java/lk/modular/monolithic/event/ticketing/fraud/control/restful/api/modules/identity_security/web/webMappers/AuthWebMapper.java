@@ -4,6 +4,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.i
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.*;
@@ -28,6 +30,15 @@ public interface AuthWebMapper {
 
     //domain model to response
     LoginUserResponseDTO toLoginUserResponseDTO(LoginUserResult loginUserResult);
+
+
+    /* __REFRESH_TOKEN__ */
+
+    //request to command
+    RefreshTokenCommand  toRefreshTokenCommand(RefreshTokenRequestDTO refreshTokenRequestDTO);
+
+    //domain model to response
+    RefreshTokenResponseDTO toRefreshTokenResponseDTO(RefreshTokenResult refreshTokenResult);
 
 
     /* domain model to responseDTO */
