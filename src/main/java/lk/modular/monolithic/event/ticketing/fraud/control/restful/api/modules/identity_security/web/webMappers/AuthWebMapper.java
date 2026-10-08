@@ -1,7 +1,5 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.webMappers;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenCommand;
@@ -40,13 +38,5 @@ public interface AuthWebMapper {
     //domain model to response
     RefreshTokenResponseDTO toRefreshTokenResponseDTO(RefreshTokenResult refreshTokenResult);
 
-
-    /* domain model to responseDTO */
-
-    //domain model to responseDTO
-    AuthResponseDTO authResponseDTO(User user);
-
-    /* Authenticated User Result to ResponseDTO */
-    AuthResponseDTO toAuthResponseDTO(AuthenticatedUserResult authenticatedUserResult);
 
 }
