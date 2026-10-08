@@ -1,9 +1,10 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.webMappers;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.models.User;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.records.LogoutCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.DTOs.*;
@@ -30,12 +31,17 @@ public interface AuthWebMapper {
     LoginUserResponseDTO toLoginUserResponseDTO(LoginUserResult loginUserResult);
 
 
-    /* domain model to responseDTO */
+    /* __REFRESH_TOKEN__ */
 
-    //domain model to responseDTO
-    AuthResponseDTO authResponseDTO(User user);
+    //request to command
+    RefreshTokenCommand  toRefreshTokenCommand(RefreshTokenRequestDTO refreshTokenRequestDTO);
 
-    /* Authenticated User Result to ResponseDTO */
-    AuthResponseDTO toAuthResponseDTO(AuthenticatedUserResult authenticatedUserResult);
+    //domain model to response
+    RefreshTokenResponseDTO toRefreshTokenResponseDTO(RefreshTokenResult refreshTokenResult);
+
+    /* __LOGOUT__ */
+
+    //request to command
+    LogoutCommand toLogoutCommand(Long userId);
 
 }

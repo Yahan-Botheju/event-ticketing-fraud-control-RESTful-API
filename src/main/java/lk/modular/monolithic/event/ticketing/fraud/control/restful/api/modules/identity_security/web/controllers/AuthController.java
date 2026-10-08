@@ -1,12 +1,14 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.web.controllers;
 
 import jakarta.validation.Valid;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.records.AuthenticatedUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.LoginUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.login.records.LoginUserResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.LogoutUserUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.records.LogoutCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.RefreshTokenUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.refreshToken.records.RefreshTokenResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.RegisterUserUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.register.records.RegisterUserResult;
@@ -72,15 +74,14 @@ public class AuthController {
 
     //refresh-token endpoint
     @PostMapping("/refresh-token")
-    public ResponseEntity<AuthResponseDTO> refreshToken(
+    public ResponseEntity<RefreshTokenResponseDTO> refreshToken(
             @Valid @RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO
     ){
-        String refreshToken = refreshTokenRequestDTO.getRefreshToken();
+        RefreshTokenCommand toCommand = authWebMapper.toRefreshTokenCommand(refreshTokenRequestDTO);
+        RefreshTokenResult tokenResult = refreshTokenUseCase.execute(toCommand);
+        RefreshTokenResponseDTO responseDTO = authWebMapper.toRefreshTokenResponseDTO(tokenResult);
 
-        AuthenticatedUserResult authenticatedUserResult = refreshTokenUseCase.execute(refreshToken);
-        AuthResponseDTO toResponseDTO = authWebMapper.toAuthResponseDTO(authenticatedUserResult);
-
-        return ResponseEntity.ok(toResponseDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
     //logout endpoint
@@ -88,7 +89,8 @@ public class AuthController {
     public ResponseEntity<String> logout(
             @CurrentUserId Long userId
     ){
-        logoutUserUseCase.execute(userId);
+        LogoutCommand toCommand = authWebMapper.toLogoutCommand(userId);
+        logoutUserUseCase.execute(toCommand);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -1,6 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.domain.repositories.RedisTokenRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.identity_security.usecase.logout.records.LogoutCommand;
 
 public class LogoutUserUseCaseImpl implements  LogoutUserUseCase {
 
@@ -13,8 +14,8 @@ public class LogoutUserUseCaseImpl implements  LogoutUserUseCase {
 
     //logout user
     @Override
-    public void execute(Long userId) {
+    public void execute(LogoutCommand logoutCommand) {
         //delete refresh token from redis whitelisting
-        redisTokenRepository.deleteRefreshToken(userId);
+        redisTokenRepository.deleteRefreshToken(logoutCommand.userId());
     }
 }
