@@ -55,7 +55,8 @@ public class Event {
             LocalDateTime eventDate,
             Integer totalTickets,
             BigDecimal ticketPrice,
-            Long organizerId
+            Long organizerId,
+            LocalDateTime createdAt
     ) {
         if (totalTickets == null || totalTickets <= 0) {
             throw new IllegalStateException("Total tickets must be greater than zero");
@@ -74,7 +75,7 @@ public class Event {
                 totalTickets,
                 ticketPrice,
                 organizerId,
-                LocalDateTime.now()
+                createdAt
         );
     }
 
