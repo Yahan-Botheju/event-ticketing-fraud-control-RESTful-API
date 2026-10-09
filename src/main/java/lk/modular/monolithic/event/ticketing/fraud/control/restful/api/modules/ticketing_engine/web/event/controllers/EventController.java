@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventRequestCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.EventByIdUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.GetAllEventsUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.GetAllEventsResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.EventResponseDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.GetAllEventsResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.CreateEventUseCase;
@@ -59,11 +61,11 @@ public class EventController {
 
     //get all events
     @GetMapping
-    public ResponseEntity<ApiResponse<List<EventResponseDTO>>> getAllEvents(){
+    public ResponseEntity<ApiResponse<List<GetAllEventsResponseDTO>>> getAllEvents(){
 
-        List<Event> getAllEvents = getAllEventsUseCase.getAllEvents();
-        List<EventResponseDTO> responseDTOS = getAllEvents.stream()
-                .map(eventWebMapper::toResponseDTO).toList();
+        List<GetAllEventsResult> getAllEvents = getAllEventsUseCase.getAllEvents();
+        List<GetAllEventsResponseDTO> responseDTOS = getAllEvents.stream()
+                .map(eventWebMapper::toGetAllEventsResponse).toList();
 
         return ResponseEntity.ok(ApiResponse.success(responseDTOS));
     }
