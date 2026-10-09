@@ -2,10 +2,10 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventRequestCommand;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.InvalidTicketException;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventResult;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class CreateEventUseCaseImpl implements CreateEventUseCase {
 
@@ -18,26 +18,37 @@ public class CreateEventUseCaseImpl implements CreateEventUseCase {
         this.eventRepository = eventRepository;
     }
 
-    /* __PUBLIC_METHODS__ */
-
     //create event
     @Override
-    public Event execute(CreateEventRequestCommand requestCommand, Long organizerId) {
-        //check ticket availability
-        if(requestCommand.eventTotalTickets() == null || requestCommand.eventTicketPrice().compareTo(BigDecimal.ZERO) <= 0){
-            throw new InvalidTicketException("Total tickets must be greater than zero");
-        }
-        //set event available tickets to total tickets
+    public CreateEventResult execute(CreateEventCommand createEventCommand) {
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        //create event model through domain
         Event newEvent = Event.createNewEvent(
-                requestCommand.eventTitle(),
-                requestCommand.eventDescription(),
-                requestCommand.eventLocation(),
-                requestCommand.eventDate(),
-                requestCommand.eventTotalTickets(),
-                requestCommand.eventTicketPrice(),
-                organizerId
+                createEventCommand.eventTitle(),
+                createEventCommand.eventDescription(),
+                createEventCommand.eventLocation(),
+                createEventCommand.eventDate(),
+                createEventCommand.eventTotalTickets(),
+                createEventCommand.eventTicketPrice(),
+                createEventCommand.organizerId(),
+                currentDateTime
         );
 
-       return eventRepository.save(newEvent);
+        Event savedEvent = eventRepository.save(newEvent);
+
+        return new CreateEventResult(
+                savedEvent.getEventId().toString(),
+                savedEvent.getEventTitle(),
+                savedEvent.getEventDescription(),
+                savedEvent.getEventLocation(),
+                savedEvent.getEventDate().toString(),
+                savedEvent.getEventTotalTickets().toString(),
+                savedEvent.getEventAvailableTickets().toString(),
+                savedEvent.getEventTicketPrice().toString(),
+                savedEvent.getOrganizerId().toString(),
+                savedEvent.getCreatedAt().toString()
+        );
     }
 }
