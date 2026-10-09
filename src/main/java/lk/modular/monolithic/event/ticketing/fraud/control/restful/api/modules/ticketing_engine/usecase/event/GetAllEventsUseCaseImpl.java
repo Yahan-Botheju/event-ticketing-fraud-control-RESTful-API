@@ -1,7 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.GetAllEventsResult;
 
 import java.util.List;
 
@@ -16,7 +16,15 @@ public class GetAllEventsUseCaseImpl implements GetAllEventsUseCase {
 
     //get all events
     @Override
-    public List<Event> getAllEvents(){
-        return eventRepository.getAllEvents();
+    public List<GetAllEventsResult> getAllEvents(){
+        return eventRepository.getAllEvents().stream()
+                .map(event -> new GetAllEventsResult(
+                        event.getEventId(),
+                        event.getEventTitle(),
+                        event.getEventDescription(),
+                        event.getEventLocation(),
+                        event.getEventDate().toString(),
+                        event.getEventTicketPrice().toString()
+                )).toList();
     }
 }
