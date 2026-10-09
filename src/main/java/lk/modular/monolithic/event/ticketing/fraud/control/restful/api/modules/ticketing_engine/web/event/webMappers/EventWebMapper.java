@@ -2,8 +2,10 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.GetAllEventsResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.CreateEventRequestDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.CreateEventResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.EventResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.GetAllEventsResponseDTO;
 import org.mapstruct.Mapper;
@@ -21,4 +23,12 @@ public interface EventWebMapper {
 
     //domain model to response
     GetAllEventsResponseDTO toGetAllEventsResponse(GetAllEventsResult getAllEventsResult);
+
+    /* __CREATE_EVENT__ */
+
+    //request to command
+    CreateEventCommand toCreateEventCommand(Long organizerId, CreateEventRequestDTO createEventRequestDTO);
+
+    //domain model to response
+    CreateEventResponseDTO toCreateEventResponseDTO(CreateEventResult createEventResult);
 }
