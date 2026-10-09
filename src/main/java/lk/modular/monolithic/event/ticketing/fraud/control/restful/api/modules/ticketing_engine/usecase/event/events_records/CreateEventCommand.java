@@ -3,7 +3,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record CreateEventRequestCommand(
+public record CreateEventCommand(
         String eventTitle,
         String eventDescription,
         String eventLocation,

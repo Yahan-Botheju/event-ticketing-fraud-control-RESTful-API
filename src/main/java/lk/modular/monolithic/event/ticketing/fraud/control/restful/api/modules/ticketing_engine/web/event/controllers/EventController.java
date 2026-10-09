@@ -1,7 +1,7 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.controllers;
 
 import jakarta.validation.Valid;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventRequestCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.CreateEventCommand;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.EventByIdUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.GetAllEventsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.GetAllEventsResult;
@@ -49,7 +49,7 @@ public class EventController {
     ) {
 
         //create domain model
-        CreateEventRequestCommand toCommand = eventWebMapper.toCommand(createEventRequestDTO);
+        CreateEventCommand toCommand = eventWebMapper.toCommand(createEventRequestDTO);
         //set to usecase for create event
         Event setToUseCase = createEventUseCase.execute(toCommand, organizerId);
         //create response
