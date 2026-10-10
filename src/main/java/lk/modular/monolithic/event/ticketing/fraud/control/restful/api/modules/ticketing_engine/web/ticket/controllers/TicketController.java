@@ -6,6 +6,9 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.GetMyTicketsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCase;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.GetMyTicketResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TicketResponseDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TransferTicketRequestDTO;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.webMappers.TicketWebMapper;
@@ -85,12 +88,13 @@ public class TicketController {
 
     //get my all tickets
     @GetMapping("/my-tickets")
-    public ResponseEntity<ApiResponse<List<TicketResponseDTO>>> getMyTickets(
+    public ResponseEntity<ApiResponse<List<GetMyTicketResponseDTO>>> getMyTickets(
             @CurrentUserId Long userId
     ){
-        List<Ticket> userTickets = getMyTicketsUseCase.findMyTickets(userId);
-        List<TicketResponseDTO> responseDTOS = userTickets.stream()
-                .map(ticketWebMapper::toResponseDTO).toList();
+        GetMyTicketCommand toCommand = ticketWebMapper.toGetMyTicketCommand(userId);
+        List<GetMyTicketResult> results = getMyTicketsUseCase.findMyTickets(toCommand);
+        List<GetMyTicketResponseDTO> responseDTOS = results.stream()
+                .map(ticketWebMapper::toGetMyTicketResponseDTO).toList();
 
         return ResponseEntity.ok(ApiResponse.success(responseDTOS));
     }
