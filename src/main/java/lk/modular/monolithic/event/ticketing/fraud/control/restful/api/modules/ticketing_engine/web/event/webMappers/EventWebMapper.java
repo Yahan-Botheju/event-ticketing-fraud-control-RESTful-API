@@ -1,18 +1,11 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.webMappers;
 
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Event;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records.*;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.event.DTOs.*;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface EventWebMapper {
-
-    //requestDTO to domain model
-    CreateEventCommand toCommand(CreateEventRequestDTO createEventRequestDTO);
-
-    //domain model to responseDTO
-    EventResponseDTO toResponseDTO(Event event);
 
     /* __GET_ALL_EVENTS__ */
 
