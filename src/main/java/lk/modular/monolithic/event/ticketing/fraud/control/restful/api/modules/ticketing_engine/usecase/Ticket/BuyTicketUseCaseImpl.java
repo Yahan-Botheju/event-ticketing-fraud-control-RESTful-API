@@ -8,10 +8,13 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.EventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.RedisLockService;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.BuyTicketCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.BuyTicketResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ConflictException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.UUID;
 
 public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
@@ -46,9 +49,9 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
 
     //buy ticket
     @Override
-    public Ticket execute(Long eventId, Long userId){
+    public BuyTicketResult execute(BuyTicketCommand buyTicketCommand){
         //create lock and identifier value
-        String lockKey = eventLockPrefix + eventId;
+        String lockKey = eventLockPrefix + buyTicketCommand.eventId();
         String lockValue = UUID.randomUUID().toString();
 
         //lock ticket buying process for per user
@@ -61,7 +64,7 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
 
         try {
             //check event availability
-            Event existingEvent = eventRepository.findById(eventId)
+            Event existingEvent = eventRepository.findById(buyTicketCommand.eventId())
                    .orElseThrow(() -> new ResourceNotFoundException("Event not found"));
 
             //check ticket availability and reserving
@@ -71,22 +74,25 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
             eventRepository.save(existingEvent);
 
             //generate secure ticket code
-            String secureTicketCode = ticketCodePrefix + UUID.randomUUID().toString();
+            String secureTicketCode = ticketCodePrefix + UUID.randomUUID();
+
+            LocalDateTime currentTime = LocalDateTime.now();
 
             //create new ticket
-            Ticket ticket = new Ticket(
+            Ticket newTicket = Ticket.createNewTicket(
                     null,
                     secureTicketCode,
-                    eventId,
-                    userId,
+                    existingEvent.getEventId(),
+                    buyTicketCommand.userId(),
                     existingEvent.getEventTicketPrice(),
                     TicketStatus.PURCHASED,
-                    LocalDateTime.now(),
+                    currentTime,
                     null
             );
 
+
             //save ticket
-            Ticket savedTicket = ticketRepository.save(ticket);
+            Ticket savedTicket = ticketRepository.save(newTicket);
 
             //publish the event
              eventPublisher.publish(new TicketPurchasedEvent(
@@ -97,7 +103,16 @@ public class BuyTicketUseCaseImpl implements BuyTicketUseCase {
             ));
 
 
-            return savedTicket;
+            return new BuyTicketResult(
+                    savedTicket.getTicketId().toString(),
+                    savedTicket.getTicketCode(),
+                    savedTicket.getEventId().toString(),
+                    savedTicket.getOwnerId().toString(),
+                    savedTicket.getTicketPrice().toString(),
+                    savedTicket.getTicketStatus().toString(),
+                    savedTicket.getPurchasedAt().toString(),
+                    savedTicket.getScannedAt().toString()
+            );
 
         }finally {
             redisLockService.releaseLock(lockKey, lockValue);
