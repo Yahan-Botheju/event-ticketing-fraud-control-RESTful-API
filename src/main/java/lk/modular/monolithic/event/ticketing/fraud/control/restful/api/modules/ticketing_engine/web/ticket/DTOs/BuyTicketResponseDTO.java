@@ -8,4 +8,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BuyTicketResponseDTO {
+    private String ticketId;
+    private String ticketCode;
+    private String eventId;
+    private String ownerId;
+    private String ticketPrice;
+    private String ticketStatus;
+    private String purchasedAt;
+    private String scannedAt;
 }
