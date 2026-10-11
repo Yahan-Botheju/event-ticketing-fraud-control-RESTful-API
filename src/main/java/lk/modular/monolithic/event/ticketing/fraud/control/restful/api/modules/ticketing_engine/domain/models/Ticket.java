@@ -11,14 +11,10 @@ import java.time.LocalDateTime;
 public class Ticket {
     private Long ticketId;
     private String ticketCode;
-
     private Long eventId;
-
     private Long ownerId;
-
     private BigDecimal ticketPrice;
     private TicketStatus ticketStatus;
-
     private LocalDateTime purchasedAt;
     private LocalDateTime scannedAt;
 
@@ -40,6 +36,31 @@ public class Ticket {
         this.ticketStatus = ticketStatus;
         this.purchasedAt = purchasedAt;
         this.scannedAt = scannedAt;
+    }
+
+    /* __FACTORY_METHOD__ */
+
+    public static Ticket createNewTicket(
+            Long ticketId,
+            String ticketCode,
+            Long eventId,
+            Long ownerId,
+            BigDecimal ticketPrice,
+            TicketStatus ticketStatus,
+            LocalDateTime purchasedAt,
+            LocalDateTime scannedAt
+
+    ){
+        return new Ticket(
+                null,
+                ticketCode,
+                eventId,
+                ownerId,
+                ticketPrice,
+                ticketStatus,
+                purchasedAt,
+                scannedAt
+        );
     }
 
 

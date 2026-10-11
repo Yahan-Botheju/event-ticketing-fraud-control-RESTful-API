@@ -6,11 +6,8 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.GetMyTicketsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.TransferTicketUseCase;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketCommand;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketResult;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.GetMyTicketResponseDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TicketResponseDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TransferTicketRequestDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.*;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.*;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.webMappers.TicketWebMapper;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.DTOs.ApiResponse;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.web_resolver.annotation.CurrentUserId;
@@ -48,12 +45,13 @@ public class TicketController {
 
     //buy ticket
     @PostMapping("/buy/{eventId}")
-    public ResponseEntity<ApiResponse<TicketResponseDTO>> buyTicket(
+    public ResponseEntity<ApiResponse<BuyTicketResponseDTO>> buyTicket(
             @PathVariable("eventId") Long eventId,
             @CurrentUserId Long userId
     ){
-        Ticket buyTicket = buyTicketUseCase.execute(eventId, userId);
-        TicketResponseDTO responseDTO = ticketWebMapper.toResponseDTO(buyTicket);
+        BuyTicketCommand toCommand = ticketWebMapper.toBuyTicketCommand(eventId, userId);
+        BuyTicketResult toResult = buyTicketUseCase.execute(toCommand);
+        BuyTicketResponseDTO responseDTO = ticketWebMapper.toBuyTicketResponseDTO(toResult);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success(responseDTO));
@@ -61,11 +59,12 @@ public class TicketController {
 
     //scan ticket at event counter
     @PostMapping("/scan/{ticketCode}")
-    public ResponseEntity<ApiResponse<TicketResponseDTO>> scanTicket(
+    public ResponseEntity<ApiResponse<ScanTicketResponseDTO>> scanTicket(
             @PathVariable("ticketCode") String ticketCode
     ){
-        Ticket scanTicket = scanTicketUseCase.execute(ticketCode);
-        TicketResponseDTO responseDTO = ticketWebMapper.toResponseDTO(scanTicket);
+        ScanTicketCommand toCommand = ticketWebMapper.toScanTicketCommand(ticketCode);
+        ScanTicketResult toResult = scanTicketUseCase.execute(toCommand);
+        ScanTicketResponseDTO responseDTO = ticketWebMapper.toScanTicketResponseDTO(toResult);
 
         return ResponseEntity.ok(ApiResponse.success(responseDTO));
     }
