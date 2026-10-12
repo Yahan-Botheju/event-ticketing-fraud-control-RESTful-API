@@ -10,9 +10,11 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.sh
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
+@EnableTransactionManagement
 public class UseCaseBeanConfigs {
 
 

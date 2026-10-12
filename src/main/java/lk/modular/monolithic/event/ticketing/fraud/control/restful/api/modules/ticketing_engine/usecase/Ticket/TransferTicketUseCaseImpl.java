@@ -2,10 +2,13 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.TransferTicketCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.TransferTicketResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.MethodArgumentNotValidException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ResourceNotFoundException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.UnauthorizedException;
 
-public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
+public class TransferTicketUseCaseImpl implements TransferTicketUseCase {
 
     //inject required dependencies
     private final TicketRepository ticketRepository;
@@ -16,22 +19,35 @@ public class TransferTicketUseCaseImpl implements  TransferTicketUseCase {
 
     //transfer a ticket
     @Override
-    public Ticket transferTicket(
-            Long ticketId,
-            Long currentOwnerId,
-            Long newOwnerId
-    ){
+    public TransferTicketResult transferTicket(TransferTicketCommand transferTicketCommand) {
+
+        if (transferTicketCommand.ticketId() == null || transferTicketCommand.currentOwnerId() == null || transferTicketCommand.newOwnerId() == null) {
+            throw new MethodArgumentNotValidException("Required fields cannot be empty");
+        }
+
         //check ticket availability
-        Ticket findTicket = ticketRepository.findById(ticketId)
+        Ticket findTicket = ticketRepository.findById(transferTicketCommand.ticketId())
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket not found"));
 
         //check ticket is owned by actual owner
-        if(!findTicket.getOwnerId().equals(currentOwnerId)){
+        if (!findTicket.getOwnerId().equals(transferTicketCommand.currentOwnerId())) {
             throw new UnauthorizedException("You are not allowed to transfer this ticket");
         }
         //set new ownership
-        findTicket.transferOwnerShip(newOwnerId);
+        findTicket.transferOwnerShip(transferTicketCommand.newOwnerId());
 
-        return ticketRepository.save(findTicket);
+        Ticket ticket = ticketRepository.save(findTicket);
+
+        return new TransferTicketResult(
+                ticket.getTicketId().toString(),
+                transferTicketCommand.currentOwnerId().toString(),
+                transferTicketCommand.newOwnerId().toString(),
+                ticket.getTicketCode(),
+                ticket.getEventId().toString(),
+                ticket.getTicketPrice().toString(),
+                ticket.getTicketStatus().toString(),
+                ticket.getPurchasedAt().toString(),
+                ticket.getScannedAt().toString()
+        );
     }
 }

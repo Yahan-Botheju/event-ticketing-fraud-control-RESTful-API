@@ -1,7 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.controllers;
 
 import jakarta.validation.Valid;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.GetMyTicketsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
@@ -71,28 +70,25 @@ public class TicketController {
 
     //transfer ticket
     @PostMapping("/transfer-ticket")
-    public ResponseEntity<ApiResponse<TicketResponseDTO>> transferTicket(
+    public ResponseEntity<ApiResponse<TransferTicketResponseDTO>> transferTicket(
             @Valid @RequestBody TransferTicketRequestDTO transferTicketRequestDTO,
             @CurrentUserId Long userId
     ){
-        //get newUserId and ticketId from request
-        Long newUserId = transferTicketRequestDTO.getNewOwnerId();
-        Long ticketId = transferTicketRequestDTO.getTicketId();
-
-        Ticket transferTicket = transferTicketUseCase.transferTicket(ticketId, userId, newUserId);
-        TicketResponseDTO responseDTO = ticketWebMapper.toResponseDTO(transferTicket);
+        TransferTicketCommand toCommand = ticketWebMapper.toTransferTicketCommand(userId, transferTicketRequestDTO);
+        TransferTicketResult toResult = transferTicketUseCase.transferTicket(toCommand);
+        TransferTicketResponseDTO responseDTO = ticketWebMapper.toTransferTicketResponseDTO(toResult);
 
         return ResponseEntity.ok(ApiResponse.success(responseDTO));
     }
 
     //get my all tickets
     @GetMapping("/my-tickets")
-    public ResponseEntity<ApiResponse<List<GetMyTicketResponseDTO>>> getMyTickets(
+    public ResponseEntity<ApiResponse<List<GetMyTicketsResponseDTO>>> getMyTickets(
             @CurrentUserId Long userId
     ){
-        GetMyTicketCommand toCommand = ticketWebMapper.toGetMyTicketCommand(userId);
-        List<GetMyTicketResult> results = getMyTicketsUseCase.findMyTickets(toCommand);
-        List<GetMyTicketResponseDTO> responseDTOS = results.stream()
+        GetMyTicketsCommand toCommand = ticketWebMapper.toGetMyTicketCommand(userId);
+        List<GetMyTicketsResult> results = getMyTicketsUseCase.findMyTickets(toCommand);
+        List<GetMyTicketsResponseDTO> responseDTOS = results.stream()
                 .map(ticketWebMapper::toGetMyTicketResponseDTO).toList();
 
         return ResponseEntity.ok(ApiResponse.success(responseDTOS));

@@ -1,8 +1,8 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket;
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.repositories.TicketRepository;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketCommand;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketResult;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketsCommand;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.GetMyTicketsResult;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.error_handling.exception.ResourceNotFoundException;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.shared.shared_domain.SharedRepositories.UserValidationClientRepository;
 
@@ -24,7 +24,7 @@ public class GetMyTicketsUseCaseImpl implements GetMyTicketsUseCase {
 
     //find all tickets of a user
     @Override
-    public List<GetMyTicketResult> findMyTickets(GetMyTicketCommand getMyTicketCommand) {
+    public List<GetMyTicketsResult> findMyTickets(GetMyTicketsCommand getMyTicketCommand) {
 
         if(getMyTicketCommand.userId() == null || getMyTicketCommand.userId() == 0L){
             throw new IllegalArgumentException("Ticket id cannot be null or empty");
@@ -35,7 +35,7 @@ public class GetMyTicketsUseCaseImpl implements GetMyTicketsUseCase {
         }
 
         return ticketRepository.findMyTickets(getMyTicketCommand.userId()).stream()
-                .map(ticket -> new GetMyTicketResult(
+                .map(ticket -> new GetMyTicketsResult(
                         ticket.getTicketId().toString(),
                         ticket.getTicketCode(),
                         ticket.getEventId().toString(),

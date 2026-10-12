@@ -28,14 +28,12 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     //ticket find by id
     @Override
-    @Transactional
     public Optional<Ticket> findById(Long ticketId) {
         return jpaTicketRepository.findById(ticketId).map(ticketPersistenceMapper::toDomainModel);
     }
 
     //find ticket by code
     @Override
-    @Transactional
     public Optional<Ticket> findByTicketCode(String ticketCode){
         return jpaTicketRepository.findByTicketCode(ticketCode).map(ticketPersistenceMapper::toDomainModel);
     }
@@ -54,7 +52,6 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     //save ticket
     @Override
-    @Transactional
     public Ticket save(Ticket ticket){
         TicketEntity ticketEntity = ticketPersistenceMapper.toEntity(ticket);
         TicketEntity savedTicket =  jpaTicketRepository.save(ticketEntity);

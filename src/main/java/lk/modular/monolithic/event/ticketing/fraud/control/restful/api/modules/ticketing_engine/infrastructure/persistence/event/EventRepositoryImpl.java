@@ -5,7 +5,6 @@ import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.t
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.entities.EventEntity;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.jpa.JpaEventRepository;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.infrastructure.persistence.event.persistenceMapper.EventPersistenceMapper;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,31 +23,22 @@ public class EventRepositoryImpl implements EventRepository {
         this.eventPersistenceMapper = eventPersistenceMapper;
     }
 
-    /* __HELPER_METHODS__ */
-
     //event find by id
-    @Transactional
-    public Optional<Event> findById(Long eventId){
+    @Override
+    public Optional<Event> findById(Long eventId) {
         return jpaEventRepository.findById(eventId).map(eventPersistenceMapper::toDomainModel);
     }
 
-
-
-    /* __PUBLIC_METHODS__ */
-
     //get all events
     @Override
-    @Transactional
-    public List<Event> getAllEvents(){
-        return  jpaEventRepository.findAll().stream()
+    public List<Event> getAllEvents() {
+        return jpaEventRepository.findAll().stream()
                 .map(eventPersistenceMapper::toDomainModel).toList();
     }
 
-
     //save event
     @Override
-    @Transactional
-    public Event save(Event event){
+    public Event save(Event event) {
         EventEntity eventEntity = eventPersistenceMapper.toEntity(event);
         EventEntity savedEntity = jpaEventRepository.save(eventEntity);
 
