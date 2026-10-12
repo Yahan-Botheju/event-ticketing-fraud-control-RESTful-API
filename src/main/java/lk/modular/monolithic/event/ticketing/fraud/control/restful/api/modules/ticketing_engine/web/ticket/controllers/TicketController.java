@@ -1,7 +1,6 @@
 package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.controllers;
 
 import jakarta.validation.Valid;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.BuyTicketUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.GetMyTicketsUseCase;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.ScanTicketUseCase;
@@ -71,16 +70,13 @@ public class TicketController {
 
     //transfer ticket
     @PostMapping("/transfer-ticket")
-    public ResponseEntity<ApiResponse<TicketResponseDTO>> transferTicket(
+    public ResponseEntity<ApiResponse<TransferTicketResponseDTO>> transferTicket(
             @Valid @RequestBody TransferTicketRequestDTO transferTicketRequestDTO,
             @CurrentUserId Long userId
     ){
-        //get newUserId and ticketId from request
-        Long newUserId = transferTicketRequestDTO.getNewOwnerId();
-        Long ticketId = transferTicketRequestDTO.getTicketId();
-
-        Ticket transferTicket = transferTicketUseCase.transferTicket(ticketId, userId, newUserId);
-        TicketResponseDTO responseDTO = ticketWebMapper.toResponseDTO(transferTicket);
+        TransferTicketCommand toCommand = ticketWebMapper.toTransferTicketCommand(userId, transferTicketRequestDTO);
+        TransferTicketResult toResult = transferTicketUseCase.transferTicket(toCommand);
+        TransferTicketResponseDTO responseDTO = ticketWebMapper.toTransferTicketResponseDTO(toResult);
 
         return ResponseEntity.ok(ApiResponse.success(responseDTO));
     }
