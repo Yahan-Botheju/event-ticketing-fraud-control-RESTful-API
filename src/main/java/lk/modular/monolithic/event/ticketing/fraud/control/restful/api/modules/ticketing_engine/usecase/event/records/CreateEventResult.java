@@ -1,4 +1,4 @@
-package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.events_records;
+package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.event.records;
 
 public record CreateEventResult(
         String eventId,
