@@ -2,10 +2,7 @@ package lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.
 
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.domain.models.Ticket;
 import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.usecase.Ticket.records.*;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.BuyTicketResponseDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.GetMyTicketResponseDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.ScanTicketResponseDTO;
-import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.TicketResponseDTO;
+import lk.modular.monolithic.event.ticketing.fraud.control.restful.api.modules.ticketing_engine.web.ticket.DTOs.*;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -37,5 +34,13 @@ public interface TicketWebMapper{
 
     //to response
     ScanTicketResponseDTO toScanTicketResponseDTO(ScanTicketResult scanTicketResult);
+
+    /* __TRANSFER_TICKET__ */
+
+    //to command
+    TransferTicketCommand  toTransferTicketCommand(Long userId, TransferTicketRequestDTO  transferTicketRequest);
+
+    //to response
+    TransferTicketResponseDTO toTransferTicketResponseDTO(TransferTicketResult transferTicketResult);
 
 }
