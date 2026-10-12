@@ -10,10 +10,10 @@ public interface TicketWebMapper{
     /* __GET_ALL_MY_TICKETS__ */
 
     //to command
-    GetMyTicketCommand toGetMyTicketCommand(Long userId);
+    GetMyTicketsCommand toGetMyTicketCommand(Long userId);
 
     //to response
-    GetMyTicketResponseDTO toGetMyTicketResponseDTO(GetMyTicketResult getMyTicketResult);
+    GetMyTicketsResponseDTO toGetMyTicketResponseDTO(GetMyTicketsResult getMyTicketResult);
 
     /* __BUY_TICKET__ */
 

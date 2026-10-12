@@ -83,12 +83,12 @@ public class TicketController {
 
     //get my all tickets
     @GetMapping("/my-tickets")
-    public ResponseEntity<ApiResponse<List<GetMyTicketResponseDTO>>> getMyTickets(
+    public ResponseEntity<ApiResponse<List<GetMyTicketsResponseDTO>>> getMyTickets(
             @CurrentUserId Long userId
     ){
-        GetMyTicketCommand toCommand = ticketWebMapper.toGetMyTicketCommand(userId);
-        List<GetMyTicketResult> results = getMyTicketsUseCase.findMyTickets(toCommand);
-        List<GetMyTicketResponseDTO> responseDTOS = results.stream()
+        GetMyTicketsCommand toCommand = ticketWebMapper.toGetMyTicketCommand(userId);
+        List<GetMyTicketsResult> results = getMyTicketsUseCase.findMyTickets(toCommand);
+        List<GetMyTicketsResponseDTO> responseDTOS = results.stream()
                 .map(ticketWebMapper::toGetMyTicketResponseDTO).toList();
 
         return ResponseEntity.ok(ApiResponse.success(responseDTOS));
